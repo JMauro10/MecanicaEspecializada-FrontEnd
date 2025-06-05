@@ -1,1 +1,107 @@
-<p>cliente-list works!</p>
+<br>
+<br>
+
+<p-dropdown
+  [options]="clientes"
+  [(ngModel)]="selecionarCliente"
+  placeholder="Selecione o tipo de Cliente"
+  (onChange)="onClienteChange($event.value)">
+</p-dropdown>
+
+<p-dialog
+  header="Cadastro de Pessoa Física"
+  [(visible)]="mostrarDialogoPessoaFisica"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{width: '30vw'}">
+
+  <form (ngSubmit)="adicionarClienteFisica()" #pessoaFisicaForm="ngForm">
+    <div class="p-field">
+      <label for="nome">Nome</label>
+      <br>
+      <input id="nome" type="text" pInputText [(ngModel)]="novoClienteFisica.nome" name="nome" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="telefoneF">Telefone</label>
+      <br>
+      <input id="telefoneF" type="text" pInputText [(ngModel)]="novoClienteFisica.telefone" name="telefoneF" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="cpf">CPF</label>
+      <br>
+      <input id="cpf" type="text" pInputText [(ngModel)]="novoClienteFisica.cpf" name="cpf" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="emailF">Email</label>
+      <br>
+      <input id="emailF" type="email" pInputText [(ngModel)]="novoClienteFisica.email" name="emailF"/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="dataNasc">Data de Nascimento</label>
+      <br>
+      <input id="dataNasc" type="date" pInputText [(ngModel)]="novoClienteFisica.dataNasc" name="dataNasc"/>
+    </div>
+
+    <br>
+    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
+  </form>
+</p-dialog>
+
+<p-dialog
+  header="Cadastro de Pessoa Jurídica"
+  [(visible)]="mostrarDialogoPessoaJuridica"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{width: '30vw'}">
+
+  <form (ngSubmit)="adicionarClienteJuridica()" #pessoaJuridicaForm="ngForm">
+
+    <div class="p-field">
+      <br>
+      <label for="razaoSocial">Razão Social</label>
+      <br>
+      <input id="razaoSocial" type="text" pInputText [(ngModel)]="novoClienteJuridica.razaoSocial" name="razaoSocial" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="cnpj">CNPJ</label>
+      <br>
+      <input id="cnpj" type="text" pInputText [(ngModel)]="novoClienteJuridica.cnpj" name="cnpj" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="nomeResp">Nome do Responsável</label>
+      <br>
+      <input id="nomeResp" type="text" pInputText [(ngModel)]="novoClienteJuridica.nome" name="nomeResp" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="telefoneJ">Telefone</label>
+      <br>
+      <input id="telefoneJ" type="text" pInputText [(ngModel)]="novoClienteJuridica.telefone" name="telefoneJ" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="emailJ">Email</label>
+      <br>
+      <input id="emailJ" type="email" pInputText [(ngModel)]="novoClienteJuridica.email" name="emailJ"/>
+    </div>
+
+    <br>
+    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
+  </form>
+</p-dialog>
