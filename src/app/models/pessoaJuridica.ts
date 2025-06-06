@@ -1,5 +1,6 @@
 export interface PessoaJuridica {
   id?: number;
+  tipo: string;
   nome: string;
   email: string;
   telefone: string;
