@@ -9,6 +9,8 @@ import {Button, ButtonModule} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {InputText, InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
+import {Panel} from 'primeng/panel';
+import {TableModule} from 'primeng/table';
 
 @Component({
   selector: 'app-cliente-list',
@@ -21,7 +23,9 @@ import {DropdownModule} from 'primeng/dropdown';
     InputText,
     InputTextModule,
     DropdownModule,
-    FormsModule
+    FormsModule,
+    Panel,
+    TableModule
   ],
   templateUrl: './cliente-list.component.html',
   styleUrl: './cliente-list.component.css'
@@ -42,8 +46,8 @@ export class ClienteListComponent {
   visible: boolean = false;
   exibeModalEdicao: boolean = false;
   form!: FormGroup;
-  novoClienteFisica: PessoaFisica = {id: 0, nome: '',email: '', telefone: '', cpf: '', dataNasc: new Date};
-  novoClienteJuridica: PessoaJuridica = {id: 0, nome: '',email: '', telefone: '',razaoSocial: '', cnpj: ''};
+  novoClienteFisica: PessoaFisica = {tipo: 'fisica', nome: '',email: '', telefone: '', cpf: '', dataNasc: new Date};
+  novoClienteJuridica: PessoaJuridica = {tipo: 'juridica', nome: '',email: '', telefone: '',razaoSocial: '', cnpj: ''};
   listaClientesFisica: PessoaFisica[] = [];
   listaClientesJuridica: PessoaJuridica[] = [];
 
@@ -92,6 +96,7 @@ export class ClienteListComponent {
         // Aqui você reseta o objeto para limpar o formulário
         this.novoClienteFisica = {
           nome: '',
+          tipo: 'fisica',
           email: '',
           telefone: '',
           cpf: '',
@@ -144,6 +149,7 @@ export class ClienteListComponent {
         // Aqui você reseta o objeto para limpar o formulário
         this.novoClienteJuridica = {
           nome: '',
+          tipo: 'juridica',
           email: '',
           telefone: '',
           razaoSocial: '',
