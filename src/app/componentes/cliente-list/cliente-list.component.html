@@ -114,10 +114,10 @@
 
 
 
-<!--Tabela de Pessoa Fisica-->
-<p-panel header="Clientes Pessoa Fisica Cadastrados">
+<!--Tabela Unificada-->
+<p-panel header="Clientes Cadastrados">
   <p-table
-    [value]="listaClientesFisica"
+    [value]="listaUnificada"
     [paginator]="true"
     [rows]="20"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -126,22 +126,24 @@
     <ng-template #header>
       <tr>
         <th style="width:5%">Id</th>
-        <th style="width:15%">Nome</th>
+        <th style="width:15%">Nome/Responsável</th>
+        <th style="width:25%">Razão Social</th>
+        <th style="width:25%">CPF/CNPJ</th>
         <th style="width:25%">Email</th>
         <th style="width:25%">Telefone</th>
-        <th style="width:25%">CPF</th>
-        <th style="width:25%">Data de Nascimento</th>
+        <th style="width:25%">Tipo</th>
         <th style="width:25%">Ações</th>
       </tr>
     </ng-template>
-    <ng-template #body let-clienteFisica>
+    <ng-template #body let-cliente>
       <tr>
-        <td>{{ clienteFisica.id }}</td>
-        <td>{{ clienteFisica.nome }}</td>
-        <td>{{ clienteFisica.email }}</td>
-        <td>{{ clienteFisica.telefone }}</td>
-        <td>{{ clienteFisica.cpf }}</td>
-        <td>{{ clienteFisica.dataNasc }}</td>
+        <td>{{ cliente.id }}</td>
+        <td>{{ cliente.nomeResponsavel }}</td>
+        <td>{{ cliente.razaoSocial }}</td>
+        <td>{{ cliente.cpfCnpj }}</td>
+        <td>{{ cliente.email }}</td>
+        <td>{{ cliente.telefone }}</td>
+        <td>{{ cliente.tipo }}</td>
         <td>
 <!--          <button pButton-->
 <!--                  type="button"-->
@@ -154,7 +156,7 @@
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-danger"
                   style="margin-left: 0.5em"
-                  (click)="removerClienteFisica(clienteFisica)">
+                  (click)="removerCliente(cliente)">
           </button>
         </td>
       </tr>
@@ -163,53 +165,4 @@
 </p-panel>
 
 
-<br>
-<br>
 
-<!--Tabela de Pessoa Juridica-->
-<p-panel header="Clientes Pessoa Juridica Cadastrados">
-  <p-table
-    [value]="listaClientesJuridica"
-    [paginator]="true"
-    [rows]="20"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    [rowsPerPageOptions]="[5, 10, 20]"
-  >
-    <ng-template #header>
-      <tr>
-        <th style="width:5%">Id</th>
-        <th style="width:15%">Razão Social</th>
-        <th style="width:15%">Nome Responsável</th>
-        <th style="width:25%">Email</th>
-        <th style="width:25%">Telefone</th>
-        <th style="width:25%">CNPJ</th>
-        <th style="width:25%">Ações</th>
-      </tr>
-    </ng-template>
-    <ng-template #body let-clienteJuridica>
-      <tr>
-        <td>{{ clienteJuridica.id }}</td>
-        <td>{{ clienteJuridica.razaoSocial }}</td>
-        <td>{{ clienteJuridica.nome }}</td>
-        <td>{{ clienteJuridica.email }}</td>
-        <td>{{ clienteJuridica.telefone }}</td>
-        <td>{{ clienteJuridica.cnpj }}</td>
-        <td>
-          <!--          <button pButton-->
-          <!--                  type="button"-->
-          <!--                  icon="pi pi-pencil"-->
-          <!--                  class="p-button-rounded custom-edit-button"-->
-          <!--                  (click)="editarCliente(cliente)">-->
-          <!--          </button>-->
-          <button pButton
-                  type="button"
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-danger"
-                  style="margin-left: 0.5em"
-                  (click)="removerClienteJuridica(clienteJuridica)">
-          </button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</p-panel>
