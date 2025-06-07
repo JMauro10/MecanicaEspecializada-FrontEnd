@@ -28,6 +28,7 @@ import {TableModule} from 'primeng/table';
     TableModule
   ],
   templateUrl: './cliente-list.component.html',
+  standalone: true,
   styleUrl: './cliente-list.component.css'
 })
 export class ClienteListComponent {
