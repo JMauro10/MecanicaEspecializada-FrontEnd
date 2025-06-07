@@ -1,0 +1,92 @@
+<br>
+<br>
+
+<!--dialog-->
+<span style="font-weight: bold;">Adicionar Peça:</span>
+<br>
+<p-button (click)="onPecaChange()" label="Show" />
+<p-dialog
+  header="Cadastro de Peça"
+  [(visible)]="mostrarDialogPeca"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{width: '30vw'}">
+
+  <form (ngSubmit)="adicionarPeca()" #pecaForm="ngForm">
+    <div class="p-field">
+      <label for="codigo">Código</label>
+      <br>
+      <input id="codigo" type="text" pInputText [(ngModel)]="novaPeca.codigo" codigo="codigo" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="descricao">Descrição</label>
+      <br>
+      <input id="descricao" type="text" pInputText [(ngModel)]="novaPeca.descricao" name="descricao" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="quantidade">Quantidade</label>
+      <br>
+      <input id="quantidade" type="text" pInputText [(ngModel)]="novaPeca.quantidade" name="quantidade" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="valorUnitario">Valor Unitário</label>
+      <br>
+      <input id="valorUnitario" type="text" pInputText [(ngModel)]="novaPeca.valorUnitario" name="valorUnitario" required/>
+    </div>
+
+    <br>
+    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
+  </form>
+</p-dialog>
+
+<!--tabela-->
+<p-panel header="Peças Cadastradas">
+  <p-table
+    [value]="listaPecas"
+    [paginator]="true"
+    [rows]="20"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template #header>
+      <tr>
+        <th style="width:5%">Id</th>
+        <th style="width:15%">Código</th>
+        <th style="width:25%">Descrição</th>
+        <th style="width:25%">Quantidade</th>
+        <th style="width:25%">Valor Unitário</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-peca>
+      <tr>
+        <td>{{ peca.id }}</td>
+        <td>{{ peca.codigo }}</td>
+        <td>{{ peca.descricao }}</td>
+        <td>{{ peca.quantidade }}</td>
+        <td>{{ peca.valorUnitario }}</td>
+        <td><!--
+          <button pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded custom-edit-button"
+                  (click)="editarPeca(peca)"
+          </button>-->
+          <button pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  (click)="removerPeca(peca)">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
