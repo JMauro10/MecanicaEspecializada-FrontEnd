@@ -6,5 +6,5 @@ export interface Ordemservicopeca {
   peca:Peca;
   ordemServico:Ordemservico;
   quantidade:number;
-  valtorTotal:number;
+  valorTotal:number;
 }
