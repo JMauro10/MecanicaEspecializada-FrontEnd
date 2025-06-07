@@ -51,7 +51,7 @@ export class FuncionarioListComponent {
     console.log('Dados do formulário antes do envio:', this.novoFuncionario);
 
     this.funcionarioService.incluirFuncionario(this.novoFuncionario).subscribe({
-      next: (pessoaFisica) => {
+      next: (funcionario) => {
         console.log('Funcionario cadastrado com sucesso!');
         alert('Funcionario cadastrado com sucesso!');
         this.atualizarListaFuncionario();
