@@ -8,6 +8,11 @@ import {InputText} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {Panel} from 'primeng/panel';
 import {TableModule} from 'primeng/table';
+import {PessoaFisica} from '../../models/pessoaFisica';
+import {PessoaJuridica} from '../../models/pessoaJuridica';
+import {IPessoaListaAdapter} from '../../adapter/ipessoa-lista-adapter';
+import {PessoaFisicaAdapter} from '../../adapter/PessoaFisicaAdapter';
+import {PessoaJuridicaAdapter} from '../../adapter/PessoaJuridicaAdapter';
 
 @Component({
   selector: 'app-funcionario-list',
@@ -30,6 +35,24 @@ export class FuncionarioListComponent {
   mostrarDialogoFuncionario = false;
   novoFuncionario: Funcionario = {nome:"",cpf:""};
   listaFuncionarios: Funcionario[] = [];
+  listaClientesFisica: PessoaFisica[] = [];
+  listaClientesJuridica: PessoaJuridica[] = [];
+  listaUnificada: IPessoaListaAdapter[] = [];
+
+  unificarListas() {
+    const adaptadasFisica = this.listaClientesFisica.map(
+      pf => new PessoaFisicaAdapter(pf)
+    );
+
+    const adaptadasJuridica = this.listaClientesJuridica.map(
+      pj => new PessoaJuridicaAdapter(pj)
+    );
+
+    this.listaUnificada = [
+      ...adaptadasFisica,
+      ...adaptadasJuridica
+    ];
+  }
 
   constructor(private funcionarioService:FuncionarioService) {
     this.funcionarioService.listarFuncionario().subscribe(funcionario => this.listaFuncionarios = funcionario);
