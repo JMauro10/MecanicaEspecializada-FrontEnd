@@ -1,0 +1,75 @@
+<br>
+<br>
+
+<!--dialog-->
+<span style="font-weight: bold;">Adicionar Serviço:</span>
+<br>
+<p-button (click)="onServicoChange()" label="Show" />
+<p-dialog
+  header="Cadastro de Serviço"
+  [(visible)]="mostrarDialogServico"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{width: '30vw'}">
+
+  <form (ngSubmit)="adicionarServico()" #servicoForm="ngForm">
+    <div class="p-field">
+      <br>
+      <label for="descricao">Descrição</label>
+      <br>
+      <input id="descricao" type="text" pInputText [(ngModel)]="novoServico.descricao" name="descricao" required/>
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="valorUnitario">Valor Unitário</label>
+      <br>
+      <input id="valorUnitario" type="text" pInputText [(ngModel)]="novoServico.valorUnitario" name="valorUnitario" required/>
+    </div>
+
+    <br>
+    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
+  </form>
+</p-dialog>
+
+<!--tabela-->
+<p-panel header="Servicos Cadastrados">
+  <p-table
+    [value]="listaServicos"
+    [paginator]="true"
+    [rows]="20"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template #header>
+      <tr>
+        <th style="width:5%">Id</th>
+        <th style="width:15%">Descrição</th>
+        <th style="width:25%">Valor Unitário</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-servico>
+      <tr>
+        <td>{{ servico.id }}</td>
+        <td>{{ servico.descricao }}</td>
+        <td>{{ servico.valorUnitario }}</td>
+        <td><!--
+          <button pButton
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-rounded custom-edit-button"
+            (click)="editarServico(servico)"
+          </button>-->
+          <button pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  (click)="removerServico(servico)">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
