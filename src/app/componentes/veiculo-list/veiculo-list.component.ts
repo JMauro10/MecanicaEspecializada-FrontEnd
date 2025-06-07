@@ -7,7 +7,6 @@ import {InputText} from 'primeng/inputtext';
 import {Panel} from 'primeng/panel';
 import {TableModule} from 'primeng/table';
 import {IPessoaListaAdapter} from '../../adapter/ipessoa-lista-adapter';
-import {ClienteService} from '../../service/cliente.service';
 import {DropdownModule} from 'primeng/dropdown';
 
 @Component({
@@ -41,17 +40,7 @@ export class VeiculoListComponent {
   listaVeiculos: Veiculo[] = [];
   listaClientes: IPessoaListaAdapter[] = [];
 
-  constructor(private clienteService: ClienteService) {}
-
-  ngOnInit(): void {
-    this.carregarClientes();
-  }
-
-  carregarClientes(): void {
-    this.clienteService.getListaUnificada().subscribe(clientes => {
-      this.listaClientes = clientes;
-    });
-  }
+  constructor() {}
 
   onVeiculoChange(): void {
     this.mostrarDialogoVeiculo = true;

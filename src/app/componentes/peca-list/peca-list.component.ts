@@ -7,11 +7,13 @@ import {Button} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {FormsModule} from '@angular/forms';
 import {Panel} from 'primeng/panel';
+import {InputText} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-peca-list',
-  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel],
+  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, InputText],
   templateUrl: './peca-list.component.html',
+  standalone: true,
   styleUrl: './peca-list.component.css'
 })
 
@@ -30,7 +32,7 @@ export class PecaListComponent {
 
   adicionarPeca(){
     if(!this.novaPeca.codigo.trim()){
-      alert('O código é obrigatório!');
+      alert('O codigo é obrigatório!')
       return;
     }
     if(!this.novaPeca.descricao.trim()){
