@@ -4,7 +4,7 @@
 <!--dialog-->
 <span style="font-weight: bold;">Adicionar Peça:</span>
 <br>
-<p-button (click)="onPecaChange()" label="Show" />
+<p-button (click)="onPecaChange()" label="Novo" />
 <p-dialog
   header="Cadastro de Peça"
   [(visible)]="mostrarDialogPeca"
@@ -17,7 +17,7 @@
     <div class="p-field">
       <label for="codigo">Código</label>
       <br>
-      <input id="codigo" type="text" pInputText [(ngModel)]="novaPeca.codigo" codigo="codigo" required/>
+      <input id="codigo" type="text" pInputText [(ngModel)]="novaPeca.codigo" name="codigo" required/>
     </div>
 
     <div class="p-field">
