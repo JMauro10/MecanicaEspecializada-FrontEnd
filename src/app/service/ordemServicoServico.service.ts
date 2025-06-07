@@ -8,7 +8,7 @@ import {OrdemServicoServico} from '../models/ordemServicoServico';
 })
 export class OrdemServicoServicoService {
 
-  url: string = 'http://localhost:8080'
+  url: string = 'http://localhost:8080' //
 
   constructor(private http: HttpClient) { }
 
