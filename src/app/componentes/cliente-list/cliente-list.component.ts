@@ -38,6 +38,13 @@ import {forkJoin} from 'rxjs';
 })
 export class ClienteListComponent {
 
+  // Filtros
+  termoBusca: string = '';
+  tipoSelecionado: string = ''; // Exemplo: '', 'FISICA', 'JURIDICA' etc.
+
+
+
+
   exibeModalEdicaoFisica: boolean = false;
   exibeModalEdicaoJuridica: boolean = false;
   form!: FormGroup;
@@ -45,6 +52,11 @@ export class ClienteListComponent {
   mostrarDialogoPessoaFisica = false;
   mostrarDialogoPessoaJuridica = false;
 
+  tiposPessoa = [
+    {label: 'Todos', value: ''},
+    {label: 'Pessoa Física', value: 'fisica'},
+    {label: 'Pessoa Jurídica', value: 'juridica'},
+  ];
 
   clientes = [
     { label: 'Pessoa Física', value: 'fisica' },
@@ -80,6 +92,8 @@ export class ClienteListComponent {
   }
 
   ngOnInit() {
+    console.log('Primeiro cliente:', this.listaUnificada[0]);
+    console.log("Todos os tipos encontrados:", [...new Set(this.listaUnificada.map(c => c.tipo))]);
     forkJoin({
       fisicas: this.pessoaFisicaService.listarClienteFisica(),
       juridicas: this.pessoaJuridicaService.listarClienteJuridica()
@@ -172,8 +186,8 @@ export class ClienteListComponent {
       error: (erro) => {
         if (erro.status === 400 || erro.status === 409) {
           alert(erro.error?.message || 'Já existe um cliente com esse nome!');
-        } else {
-          alert('Erro inesperado ao cadastrar cliente.');
+        } else if(erro.status === 500) {
+          alert('Já existe um cliente com esse CPF!');
         }
       }
     });
@@ -209,33 +223,43 @@ export class ClienteListComponent {
     // Setando explicitamente o tipo
     this.novoClienteJuridica.tipo = 'juridica';
 
-    // Opcional: você pode atualizar o formJuridica também se for importante para outros usos
-    // this.formJuridica.get('tipo')?.setValue('juridica');
+    // Verificação do CNPJ (chamando o backend antes de salvar)
+    this.pessoaJuridicaService.verificarCnpj(this.novoClienteJuridica.cnpj).subscribe({
+      next: (resposta) => {
+        console.log('Resposta do endpoint:', resposta);
+        if (resposta.existe) {
+          alert('Já existe uma empresa cadastrada com esse CNPJ!');
+          return;
+        }
 
-    console.log('Dados do formulário antes do envio:', this.novoClienteJuridica);
-
-    // Agora sim, o objeto enviado já terá o tipo preenchido
-    this.pessoaJuridicaService.incluirClienteJuridica(this.novoClienteJuridica).subscribe({
-      next: (pessoaJuridica) => {
-        console.log('Empresa cadastrada com sucesso!');
-        alert('Empresa cadastrada com sucesso!');
-        this.atualizarListaClientesJuridica();
-        this.novoClienteJuridica = {
-          nome: '',
-          tipo: 'juridica',
-          email: '',
-          telefone: '',
-          razaoSocial: '',
-          cnpj: ''
-        };
-        this.mostrarDialogoPessoaJuridica = false;
+        // Se não existe, pode incluir normalmente
+        this.pessoaJuridicaService.incluirClienteJuridica(this.novoClienteJuridica).subscribe({
+          next: (pessoaJuridica) => {
+            console.log('Empresa cadastrada com sucesso!');
+            alert('Empresa cadastrada com sucesso!');
+            this.atualizarListaClientesJuridica();
+            this.novoClienteJuridica = {
+              nome: '',
+              tipo: 'juridica',
+              email: '',
+              telefone: '',
+              razaoSocial: '',
+              cnpj: ''
+            };
+            this.mostrarDialogoPessoaJuridica = false;
+          },
+          error: (erro) => {
+            if (erro.status === 400 || erro.status === 409) {
+              alert(erro.error?.message || 'Já existe uma Empresa com esse nome!');
+            } else {
+              alert('Erro inesperado ao cadastrar empresa.');
+            }
+          }
+        });
       },
       error: (erro) => {
-        if (erro.status === 400 || erro.status === 409) {
-          alert(erro.error?.message || 'Já existe uma Empresa com esse nome!');
-        } else {
-          alert('Erro inesperado ao cadastrar empresa.');
-        }
+        console.error('Erro ao verificar existência do CNPJ:', erro);
+        alert('Erro ao verificar existência do CNPJ.');
       }
     });
   }
@@ -408,6 +432,24 @@ export class ClienteListComponent {
         }
       }
     });
+  }
+
+  get clientesFiltrados(): IPessoaListaAdapter[] {
+    return this.listaUnificada
+      .filter(cliente =>
+        !this.tipoSelecionado || cliente.tipo === this.tipoSelecionado
+      )
+      .filter(cliente =>
+          !this.termoBusca || [
+            cliente.nomeResponsavel?.toLowerCase() ?? '',
+            cliente.razaoSocial?.toLowerCase() ?? '',
+            cliente.cpfCnpj?.toLowerCase() ?? '',
+            cliente.email?.toLowerCase() ?? '',
+            cliente.telefone?.toLowerCase() ?? ''
+          ].some(valor =>
+            valor.includes(this.termoBusca.toLowerCase())
+          )
+      );
   }
 
 
