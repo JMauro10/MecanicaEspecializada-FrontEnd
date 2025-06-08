@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SharedModule} from 'primeng/api';
 import {PessoaFisica} from '../../models/pessoaFisica';
 import {PessoaJuridica} from '../../models/pessoaJuridica';
@@ -38,6 +38,10 @@ import {forkJoin} from 'rxjs';
 })
 export class ClienteListComponent {
 
+  exibeModalEdicaoFisica: boolean = false;
+  exibeModalEdicaoJuridica: boolean = false;
+  form!: FormGroup;
+  formJuridica!: FormGroup;
   mostrarDialogoPessoaFisica = false;
   mostrarDialogoPessoaJuridica = false;
 
@@ -72,7 +76,7 @@ export class ClienteListComponent {
     ];
   }
 
-  constructor(private pessoaFisicaService: PessoaFisicaService, private pessoaJuridicaService: PessoaJuridicaService) {
+  constructor(private pessoaFisicaService: PessoaFisicaService, private pessoaJuridicaService: PessoaJuridicaService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -84,12 +88,51 @@ export class ClienteListComponent {
       this.listaClientesJuridica = juridicas;
       this.unificarListas();
     });
+
+    this.form = this.fb.group({
+      id: [null],
+      tipo: [''],
+      nome: ['', Validators.required],
+      email: ['', Validators.required],
+      telefone: [''],
+      cpf: ['', Validators.required],
+      dataNasc: [null]
+    });
+
+    this.formJuridica = this.fb.group({
+      id: [null],
+      tipo: ['juridica'],
+      razaoSocial: ['', Validators.required],
+      cnpj: ['', Validators.required],
+      nomeResponsavel: [''],
+      email: [''],
+      telefone: ['']
+    });
   }
+
 
   onClienteChange(clienteSelecionado: string) {
     if (clienteSelecionado === 'fisica') {
+      // Zera objeto de pessoa física antes de abrir o modal!
+      this.novoClienteFisica = {
+        nome: '',
+        tipo: 'fisica',
+        email: '',
+        telefone: '',
+        cpf: '',
+        dataNasc: new Date()
+      };
       this.mostrarDialogoPessoaFisica = true;
     } else if (clienteSelecionado === 'juridica') {
+      // Zera objeto de pessoa jurídica antes de abrir o modal!
+      this.novoClienteJuridica = {
+        nome: '',
+        tipo: '',
+        email: '',
+        telefone: '',
+        cnpj: '',
+        razaoSocial: ''
+      };
       this.mostrarDialogoPessoaJuridica = true;
     }
   }
@@ -138,6 +181,7 @@ export class ClienteListComponent {
 
   atualizarListaClientesFisica(): void {
     this.pessoaFisicaService.listarClienteFisica().subscribe(pessoaFisica => {
+      console.log('Retorno do backend:', pessoaFisica);
       this.listaClientesFisica = pessoaFisica;
       this.unificarListas();
     });
@@ -145,31 +189,37 @@ export class ClienteListComponent {
 
 
   adicionarClienteJuridica() {
-    if(!this.novoClienteJuridica.nome.trim()){
+    if (!this.novoClienteJuridica.nome.trim()) {
       alert('O nome do responsável é obrigatório!');
       return;
     }
-    if(!this.novoClienteJuridica.telefone.trim()){
+    if (!this.novoClienteJuridica.telefone.trim()) {
       alert('O telefone é obrigatório!');
       return;
     }
-    if(!this.novoClienteJuridica.razaoSocial.trim()){
+    if (!this.novoClienteJuridica.razaoSocial.trim()) {
       alert('A razão Social é obrigatória!');
       return;
     }
-    if(!this.novoClienteJuridica.cnpj.trim()){
+    if (!this.novoClienteJuridica.cnpj.trim()) {
       alert('O CNPJ é obrigatório!');
       return;
     }
 
+    // Setando explicitamente o tipo
+    this.novoClienteJuridica.tipo = 'juridica';
+
+    // Opcional: você pode atualizar o formJuridica também se for importante para outros usos
+    // this.formJuridica.get('tipo')?.setValue('juridica');
+
     console.log('Dados do formulário antes do envio:', this.novoClienteJuridica);
 
+    // Agora sim, o objeto enviado já terá o tipo preenchido
     this.pessoaJuridicaService.incluirClienteJuridica(this.novoClienteJuridica).subscribe({
       next: (pessoaJuridica) => {
         console.log('Empresa cadastrada com sucesso!');
         alert('Empresa cadastrada com sucesso!');
-        this.atualizarListaClientesJuridica(); // Atualiza a lista após o cadastro bem-sucedido
-        // Aqui você reseta o objeto para limpar o formulário
+        this.atualizarListaClientesJuridica();
         this.novoClienteJuridica = {
           nome: '',
           tipo: 'juridica',
@@ -192,6 +242,7 @@ export class ClienteListComponent {
 
   atualizarListaClientesJuridica(): void {
     this.pessoaJuridicaService.listarClienteJuridica().subscribe(pessoaJuridica => {
+      console.log('Retorno do backend:', pessoaJuridica);
       this.listaClientesJuridica = pessoaJuridica;
       this.unificarListas();
     });
@@ -235,6 +286,128 @@ export class ClienteListComponent {
         alert('Tipo de cliente desconhecido!');
       }
     }
+  }
+
+  editarClienteFisica(pessoaFisica: PessoaFisica) {
+    console.log('Pessoa recebida para edição:', pessoaFisica);
+    this.exibeModalEdicaoFisica = true;
+
+    setTimeout(() => {
+      const pessoaAdaptada = new PessoaFisicaAdapter(pessoaFisica);
+      console.log('Pessoa adaptada:', pessoaAdaptada);
+      if (this.form) {
+        this.form.get('id')?.setValue(pessoaAdaptada.id);
+        this.form.get('tipo')?.setValue(pessoaAdaptada.tipo || '');
+        this.form.get('nome')?.setValue(pessoaAdaptada.nomeResponsavel || '');
+        this.form.get('email')?.setValue(pessoaAdaptada.email || '');
+        this.form.get('telefone')?.setValue(pessoaAdaptada.telefone || '');
+        this.form.get('cpf')?.setValue(pessoaAdaptada.cpfCnpj || '');
+
+      }
+    });
+  }
+
+  editarClienteJuridica(pessoaJuridica: PessoaJuridica) {
+    this.exibeModalEdicaoJuridica = true;
+    setTimeout(() => {
+      const pessoaAdaptada = new PessoaJuridicaAdapter(pessoaJuridica);
+      if (this.formJuridica) {
+
+        this.formJuridica.patchValue({
+          id: pessoaAdaptada.id,
+          tipo: pessoaAdaptada.tipo || '',
+          nomeResponsavel: pessoaAdaptada.nomeResponsavel || '',
+          razaoSocial: pessoaAdaptada.razaoSocial || '',
+          email: pessoaAdaptada.email || '',
+          telefone: pessoaAdaptada.telefone || '',
+          cnpj: pessoaAdaptada.cpfCnpj || ''
+        });
+      }
+    });
+  }
+
+  abrirEdicao(id: number, tipo: string) {
+    if (tipo === 'fisica') {
+      // Busca o objeto original na lista de Pessoas Físicas
+      const clienteOriginal = this.listaClientesFisica.find(p => p.id === id);
+      if (clienteOriginal) {
+        this.editarClienteFisica(clienteOriginal);
+      }
+    } else if (tipo === 'juridica') {
+      const clienteOriginal = this.listaClientesJuridica.find(p => p.id === id);
+      if (clienteOriginal) {
+        this.editarClienteJuridica(clienteOriginal);
+      }
+     }
+  }
+
+
+
+  salvarEdicaoFisica() {
+    if (this.form.invalid) {
+      return;
+    }
+    const clienteEditado: PessoaFisica = this.form.value;
+    this.pessoaFisicaService.atualizarClienteFisica(clienteEditado).subscribe({
+      next: (clienteAtualizado) => {
+        // Atualiza somente o item na lista local
+        const idx = this.listaUnificada.findIndex(g => g.id === clienteAtualizado.id);
+        if (idx !== -1) {
+          this.listaUnificada[idx] = new PessoaFisicaAdapter(clienteAtualizado);
+          this.listaUnificada = [...this.listaUnificada];
+        }
+        this.exibeModalEdicaoFisica = false;
+        alert('Cliente atualizado com sucesso!');
+      },
+      error: (erro) => {
+        if (erro.status === 409) {
+          alert(erro.error?.message || 'Já existe um cliente com esse nome!');
+        } else if (erro.status === 500){
+          alert('O tamanho não é suportado!');
+        }else {
+          alert(erro)
+        }
+      }
+    });
+  }
+
+  salvarEdicaoJuridica() {
+    if (this.formJuridica.invalid) {
+      return;
+    }
+
+    this.formJuridica.get('tipo')?.setValue('juridica');
+
+
+    const clienteEditado: PessoaJuridica = {
+      ...this.formJuridica.value,
+      nome: this.formJuridica.value.nomeResponsavel
+    };
+    console.log('JSON que será enviado:', clienteEditado);
+    console.log('Enviando para atualizar:', clienteEditado);
+    this.pessoaJuridicaService.atualizarClienteJuridica(clienteEditado).subscribe({
+      next: (clienteAtualizado) => {
+        console.log('Retorno do backend:', clienteAtualizado);
+        // Atualiza somente o item na lista local
+        const idx = this.listaUnificada.findIndex(g => g.id === clienteAtualizado.id);
+        if (idx !== -1) {
+          this.listaUnificada[idx] = new PessoaJuridicaAdapter(clienteAtualizado);
+          this.listaUnificada = [...this.listaUnificada];
+        }
+        this.exibeModalEdicaoJuridica = false;
+        alert('Cliente atualizado com sucesso!');
+      },
+      error: (erro) => {
+        console.error('Erro ao atualizar:', erro);
+        if (erro.status === 409) {
+          alert(erro.error?.message || 'Já existe um cliente com esse nome!');
+        } else if (erro.status === 500){
+          alert('O tamanho não é suportado!');
+        }else {
+          alert(erro)
+        }
+      }
+    });
   }
 
 

@@ -26,6 +26,14 @@ export class AppComponent {
     {
       label: 'Funcionários',
       routerLink: '/funcionario-list'
+    },
+    {
+      label: 'Peças',
+      routerLink: '/peca-list'
+    },
+    {
+      label: 'Serviços',
+      routerLink: '/servico-list'
     }
   ];
 }
