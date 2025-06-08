@@ -17,6 +17,6 @@ export class PessoaJuridicaAdapter implements IPessoaListaAdapter {
     this.email = pj.email;
     this.telefone = pj.telefone;
     this.cpfCnpj = pj.cnpj;
-    this.tipo = pj.tipo;
+    this.tipo = pj.tipo || 'juridica';
   }
 }

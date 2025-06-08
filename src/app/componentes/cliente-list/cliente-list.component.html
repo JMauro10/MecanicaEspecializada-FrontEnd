@@ -10,6 +10,8 @@
   (onChange)="onClienteChange($event.value)">
 </p-dropdown>
 
+
+<!--Cadastro de Pessoa Física-->
 <p-dialog
   header="Cadastro de Pessoa Física"
   [(visible)]="mostrarDialogoPessoaFisica"
@@ -46,18 +48,14 @@
       <input id="emailF" type="email" pInputText [(ngModel)]="novoClienteFisica.email" name="emailF"/>
     </div>
 
-    <div class="p-field">
-      <br>
-      <label for="dataNasc">Data de Nascimento</label>
-      <br>
-      <input id="dataNasc" type="date" pInputText [(ngModel)]="novoClienteFisica.dataNasc" name="dataNasc"/>
-    </div>
-
     <br>
     <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
   </form>
 </p-dialog>
 
+
+
+<!--Cadastro de Pessoa Jurídica-->
 <p-dialog
   header="Cadastro de Pessoa Jurídica"
   [(visible)]="mostrarDialogoPessoaJuridica"
@@ -127,12 +125,12 @@
       <tr>
         <th style="width:5%">Id</th>
         <th style="width:15%">Nome/Responsável</th>
-        <th style="width:25%">Razão Social</th>
-        <th style="width:25%">CPF/CNPJ</th>
-        <th style="width:25%">Email</th>
-        <th style="width:25%">Telefone</th>
-        <th style="width:25%">Tipo</th>
-        <th style="width:25%">Ações</th>
+        <th style="width:15%">Razão Social</th>
+        <th style="width:15%">CPF/CNPJ</th>
+        <th style="width:15%">Email</th>
+        <th style="width:15%">Telefone</th>
+        <th style="width:10%">Tipo</th>
+        <th style="width:15%">Ações</th>
       </tr>
     </ng-template>
     <ng-template #body let-cliente>
@@ -145,12 +143,12 @@
         <td>{{ cliente.telefone }}</td>
         <td>{{ cliente.tipo }}</td>
         <td>
-<!--          <button pButton-->
-<!--                  type="button"-->
-<!--                  icon="pi pi-pencil"-->
-<!--                  class="p-button-rounded custom-edit-button"-->
-<!--                  (click)="editarCliente(cliente)">-->
-<!--          </button>-->
+          <button pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded custom-edit-button"
+                  (click)="abrirEdicao(cliente.id, cliente.tipo)">
+          </button>
           <button pButton
                   type="button"
                   icon="pi pi-trash"
@@ -165,4 +163,108 @@
 </p-panel>
 
 
+
+<!--Pop Up de Edição Cliente Fisica-->
+<p-dialog
+  header="Editar Cliente Pessoa Física"
+  [(visible)]="exibeModalEdicaoFisica"
+  [modal]="true"
+  [closable]="true"
+  [style]="{width: '350px'}"
+>
+  <form [formGroup]="form" (ngSubmit)="salvarEdicaoFisica()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="idF">Id</label>
+        <br>
+        <input id="idF" type="text" formControlName="id" pInputText [readonly]="true" />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="nomeEdicaoF">Nome</label>
+        <br>
+        <input id="nomeEdicaoF" type="text" formControlName="nome" pInputText />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="telefoneEdicaoF">Telefone</label>
+        <br>
+        <input id="telefoneEdicaoF" type="text" formControlName="telefone" pInputText />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="cpfEdicao">CPF</label>
+        <br>
+        <input id="cpfEdicao" type="text" formControlName="cpf" pInputText />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="emailEdicaoF">Email</label>
+        <br>
+        <input id="emailEdicaoF" type="text" formControlName="email" pInputText />
+      </div>
+    </div>
+    <br>
+    <p-footer>
+      <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right"
+              [disabled]="form.invalid"
+              class="p-button-success"></button>
+    </p-footer>
+  </form>
+</p-dialog>
+
+
+<!--Pop Up de Edição Cliente Jurídica-->
+<p-dialog
+  header="Editar Cliente Pessoa Jurídica"
+  [(visible)]="exibeModalEdicaoJuridica"
+  [modal]="true"
+  [closable]="true"
+  [style]="{width: '350px'}"
+>
+  <form [formGroup]="formJuridica" (ngSubmit)="salvarEdicaoJuridica()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="id">Id</label>
+        <br>
+        <input id="id" type="text" formControlName="id" pInputText [readonly]="true" />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="razaoSocialEdicao">Razão Social</label>
+        <br>
+        <input id="razaoSocialEdicao" type="text" formControlName="razaoSocial" pInputText />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="cnpjEdicao">CNPJ</label>
+        <br>
+        <input id="cnpjEdicao" type="text" formControlName="cnpj" pInputText />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="nomeRespEdicao">Nome do Responsável</label>
+        <br>
+        <input id="nomeRespEdicao" type="text" formControlName="nomeResponsavel" pInputText />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="telefoneEdicaoJ">Telefone</label>
+        <br>
+        <input id="telefoneEdicaoJ" type="text" formControlName="telefone" pInputText />
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="emailEdicao">Email</label>
+        <br>
+        <input id="emailEdicao" type="text" formControlName="email" pInputText />
+      </div>
+    </div>
+    <br>
+    <p-footer>
+      <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right"
+              class="p-button-success"></button>
+    </p-footer>
+  </form>
+</p-dialog>
 
