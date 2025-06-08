@@ -27,4 +27,11 @@ export class PessoaJuridicaService {
   atualizarClienteJuridica(pessoaJuridica: PessoaJuridica): Observable<PessoaJuridica>{
     return this.http.put<PessoaJuridica>(this.url + '/clienteJuridica', pessoaJuridica);
   }
+
+
+  verificarCnpj(cnpj: string) {
+    return this.http.get<{ existe: boolean }>(`/clienteJuridica/existe-cnpj/${encodeURIComponent(cnpj)}`);
+  }
+
+
 }
