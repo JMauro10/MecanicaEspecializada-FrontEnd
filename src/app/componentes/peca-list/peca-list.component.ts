@@ -3,7 +3,7 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import {Peca} from '../../models/peca';
 import {PecaService} from '../../service/peca.service';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {FormsModule} from '@angular/forms';
 import {Panel} from 'primeng/panel';
@@ -11,7 +11,7 @@ import {InputText} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-peca-list',
-  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, InputText],
+  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, InputText, ButtonDirective],
   templateUrl: './peca-list.component.html',
   standalone: true,
   styleUrl: './peca-list.component.css'
