@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {FormsModule} from '@angular/forms';
 import {Panel} from 'primeng/panel';
@@ -10,7 +10,7 @@ import {ServicoService} from '../../service/servico.service';
 
 @Component({
   selector: 'app-servico-list',
-  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel],
+  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, ButtonDirective],
   templateUrl: './servico-list.component.html',
   styleUrl: './servico-list.component.css'
 })
