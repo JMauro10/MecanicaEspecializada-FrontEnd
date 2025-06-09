@@ -1,11 +1,12 @@
+<!-- BOTÃO PARA ADICIONAR FUNCIONÁRIO -->
 <br>
-<br>
-
-<span style="font-weight: bold;">Adicionar funcionario:</span>
+<span style="font-weight: bold;">Adicionar funcionário:</span>
 <br>
 <p-button (click)="onFuncionarioChange()" label="Novo" />
+
+<!-- DIÁLOGO DE CADASTRO -->
 <p-dialog
-  header="Cadastro de Funcionario"
+  header="Cadastro de Funcionário"
   [(visible)]="mostrarDialogoFuncionario"
   [modal]="true"
   [closable]="true"
@@ -14,16 +15,14 @@
 
   <form (ngSubmit)="incluirFuncionario()" #funcionarioForm="ngForm">
     <div class="p-field">
-      <label for="nome">Nome</label>
-      <br>
-      <input id="nome" type="text" pInputText [(ngModel)]="novoFuncionario.nome" name="nome" required/>
+      <label for="nome">Nome</label><br>
+      <input id="nome" type="text" pInputText [(ngModel)]="novoFuncionario.nome" name="nome" required />
     </div>
 
     <div class="p-field">
       <br>
-      <label for="cpf">CPF</label>
-      <br>
-      <input id="cpf" type="text" pInputText [(ngModel)]="novoFuncionario.cpf" name="cpf" required/>
+      <label for="cpf">CPF</label><br>
+      <input id="cpf" type="text" pInputText [(ngModel)]="novoFuncionario.cpf" name="cpf" required />
     </div>
 
     <br>
@@ -31,15 +30,16 @@
   </form>
 </p-dialog>
 
-<p-panel header="Funcionarios Cadastrados">
+<!-- LISTAGEM DE FUNCIONÁRIOS -->
+<p-panel header="Funcionários Cadastrados">
   <p-table
     [value]="listaFuncionarios"
     [paginator]="true"
     [rows]="20"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rowsPerPageOptions]="[5, 10, 20]"
-  >
-    <ng-template #header>
+    [rowsPerPageOptions]="[5, 10, 20]">
+
+    <ng-template pTemplate="header">
       <tr>
         <th style="width:5%">Id</th>
         <th style="width:20%">Nome</th>
@@ -47,12 +47,20 @@
         <th style="width:20%">Ações</th>
       </tr>
     </ng-template>
-    <ng-template #body let-funcionario>
+
+    <ng-template pTemplate="body" let-funcionario>
       <tr>
         <td>{{ funcionario.id }}</td>
         <td>{{ funcionario.nome }}</td>
         <td>{{ funcionario.cpf }}</td>
         <td>
+          <button pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded custom-edit-button"
+                  style="margin-left: 0.5em"
+                  (click)="editarFuncionario(funcionario)">
+          </button>
           <button pButton
                   type="button"
                   icon="pi pi-trash"
@@ -65,3 +73,31 @@
     </ng-template>
   </p-table>
 </p-panel>
+
+<!-- DIÁLOGO DE EDIÇÃO -->
+<p-dialog
+  header="Editar Funcionário"
+  [(visible)]="mostrarDialogoEditarFuncionario"
+  [modal]="true"
+  [closable]="true"
+  [style]="{width: '350px'}">
+
+  <form (ngSubmit)="salvarEdicao()" #editarForm="ngForm">
+    <div class="p-field">
+      <label for="nome1">Nome</label><br>
+      <input id="nome1" type="text" pInputText [(ngModel)]="funcionarioEditando.nome" name="nome1" required />
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="cpf1">CPF</label><br>
+      <input id="cpf1" type="text" pInputText [(ngModel)]="funcionarioEditando.cpf" name="cpf1" required />
+    </div>
+
+    <br>
+    <p-footer>
+      <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right"
+              class="p-button-success"></button>
+    </p-footer>
+  </form>
+</p-dialog>

@@ -1,18 +1,11 @@
 import { Component } from '@angular/core';
-import {Funcionario} from '../../models/funcionario';
-import {FuncionarioService} from '../../service/funcionario.service';
 import {Button, ButtonDirective} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
-import {FormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {Panel} from 'primeng/panel';
 import {TableModule} from 'primeng/table';
-import {PessoaFisica} from '../../models/pessoaFisica';
-import {PessoaJuridica} from '../../models/pessoaJuridica';
-import {IPessoaListaAdapter} from '../../adapter/ipessoa-lista-adapter';
-import {PessoaFisicaAdapter} from '../../adapter/PessoaFisicaAdapter';
-import {PessoaJuridicaAdapter} from '../../adapter/PessoaJuridicaAdapter';
 
 @Component({
   selector: 'app-funcionario-list',
@@ -24,7 +17,8 @@ import {PessoaJuridicaAdapter} from '../../adapter/PessoaJuridicaAdapter';
     DropdownModule,
     ButtonDirective,
     Panel,
-    TableModule
+    TableModule,
+    ReactiveFormsModule
   ],
   templateUrl: './funcionario-list.component.html',
   standalone: true,
@@ -32,91 +26,44 @@ import {PessoaJuridicaAdapter} from '../../adapter/PessoaJuridicaAdapter';
 })
 export class FuncionarioListComponent {
 
+  novoFuncionario: any = {};
+  funcionarioEditando: any = {};
+
   mostrarDialogoFuncionario = false;
-  novoFuncionario: Funcionario = {nome:"",cpf:""};
-  listaFuncionarios: Funcionario[] = [];
-  listaClientesFisica: PessoaFisica[] = [];
-  listaClientesJuridica: PessoaJuridica[] = [];
-  listaUnificada: IPessoaListaAdapter[] = [];
+  mostrarDialogoEditarFuncionario = false;
 
-  unificarListas() {
-    const adaptadasFisica = this.listaClientesFisica.map(
-      pf => new PessoaFisicaAdapter(pf)
-    );
+  listaFuncionarios: any[] = [];
 
-    const adaptadasJuridica = this.listaClientesJuridica.map(
-      pj => new PessoaJuridicaAdapter(pj)
-    );
-
-    this.listaUnificada = [
-      ...adaptadasFisica,
-      ...adaptadasJuridica
-    ];
-  }
-
-  constructor(private funcionarioService:FuncionarioService) {
-    this.funcionarioService.listarFuncionario().subscribe(funcionario => this.listaFuncionarios = funcionario);
-  }
-
-  onFuncionarioChange(){
+  onFuncionarioChange() {
+    this.novoFuncionario = {};
     this.mostrarDialogoFuncionario = true;
   }
 
-  incluirFuncionario(){
-    if(!this.novoFuncionario.nome.trim()){
-      alert('O nome é obrigatório!');
-      return;
-    }
-    if(!this.novoFuncionario.cpf.trim()){
-      alert('O CPF é obrigatório!')
-      return;
-    }
-    console.log('Dados do formulário antes do envio:', this.novoFuncionario);
-
-    this.funcionarioService.incluirFuncionario(this.novoFuncionario).subscribe({
-      next: (funcionario) => {
-        console.log('Funcionario cadastrado com sucesso!');
-        alert('Funcionario cadastrado com sucesso!');
-        this.atualizarListaFuncionario();
-        this.novoFuncionario = {
-          nome: '',
-          cpf: ''
-        };
-        this.mostrarDialogoFuncionario = false;
-      },
-      error: (erro) => {
-        if (erro.status === 400 || erro.status === 409) {
-          alert(erro.error?.message || 'Já existe um Funcionario com esse nome!');
-        } else {
-          alert('Erro inesperado ao cadastrar funcionario.');
-        }
-      }
-    });
+  incluirFuncionario() {
+    const novo = {
+      ...this.novoFuncionario,
+      id: this.listaFuncionarios.length + 1
+    };
+    this.listaFuncionarios.push(novo);
+    this.mostrarDialogoFuncionario = false;
   }
 
-  atualizarListaFuncionario(): void {
-    this.funcionarioService.listarFuncionario().subscribe(funcionario => {
-      this.listaFuncionarios = funcionario;
-    });
+  editarFuncionario(funcionario: any) {
+    this.funcionarioEditando = { ...funcionario }; // Cópia para edição segura
+    this.mostrarDialogoEditarFuncionario = true;
   }
 
-  removerFuncionario(funcionario: Funcionario) {
-    if (funcionario.id === undefined) {
-      alert("ID do funcionario não encontrado. Não é possível remover.");
-      return;
+  salvarEdicao() {
+    const index = this.listaFuncionarios.findIndex(f => f.id === this.funcionarioEditando.id);
+    if (index !== -1) {
+      this.listaFuncionarios[index] = { ...this.funcionarioEditando };
     }
-
-    if (confirm(`Tem certeza que deseja remover o funcionario "${funcionario.nome}"?`)) {
-      this.funcionarioService.deletarFuncionarioById(funcionario.id).subscribe({
-        next: () => {
-          // Remove da lista localmente após sucesso:
-          this.listaFuncionarios = this.listaFuncionarios.filter(g => g.id !== funcionario.id);
-          alert('Funcionario removido com sucesso!');
-        },
-        error: () => {
-          alert('Ocorreu um erro ao tentar remover o funcionario.');
-        }
-      });
-    }
+    this.mostrarDialogoEditarFuncionario = false;
   }
+
+  removerFuncionario(funcionario: any) {
+    this.listaFuncionarios = this.listaFuncionarios.filter(f => f.id !== funcionario.id);
+  }
+
+
 }
