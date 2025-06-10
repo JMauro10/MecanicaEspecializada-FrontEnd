@@ -1,10 +1,25 @@
-<br>
-<br>
+<!-- Linha de filtros e adicionar cliente -->
+<div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
+  <!-- Filtros do lado esquerdo -->
+  <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
+    <span style="font-weight: bold;">Filtros</span>
+    <input
+      pInputText
+      type="text"
+      [(ngModel)]="termoBusca"
+      placeholder="Buscar por Descrição"
+      style="min-width: 480px;"
+    />
+  </div>
 
-<!--dialog-->
-<span style="font-weight: bold;">Adicionar Serviço:</span>
-<br>
-<p-button (click)="onServicoChange()" label="Novo" />
+  <!-- Adicionar Servico do lado direito -->
+  <div class="adicionar-servico-container" style="display: flex; flex-direction: column; align-items: flex-end;">
+    <span style="font-weight: bold; margin-bottom: 4px;">Adicionar serviço:</span>
+    <p-button (click)="onServicoChange()" label="Novo" />
+  </div>
+</div>
+
+<!--DIALOG DE CADASTRO-->
 <p-dialog
   header="Cadastro de Serviço"
   [(visible)]="mostrarDialogServico"
@@ -33,10 +48,10 @@
   </form>
 </p-dialog>
 
-<!--tabela-->
+<!--TABELA-->
 <p-panel header="Servicos Cadastrados">
   <p-table
-    [value]="listaServicos"
+    [value]="servicosFiltrados"
     [paginator]="true"
     [rows]="20"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -46,7 +61,8 @@
       <tr>
         <th style="width:5%">Id</th>
         <th style="width:15%">Descrição</th>
-        <th style="width:25%">Valor Unitário</th>
+        <th style="width:15%">Valor Unitário</th>
+        <th style="width:15%">Ações</th>
       </tr>
     </ng-template>
     <ng-template #body let-servico>
@@ -54,13 +70,13 @@
         <td>{{ servico.id }}</td>
         <td>{{ servico.descricao }}</td>
         <td>{{ servico.valorUnitario }}</td>
-        <td><!--
+        <td>
           <button pButton
             type="button"
             icon="pi pi-pencil"
             class="p-button-rounded custom-edit-button"
-            (click)="editarServico(servico)"
-          </button>-->
+            (click)="editarServico(servico)">
+          </button>
           <button pButton
                   type="button"
                   icon="pi pi-trash"
@@ -73,3 +89,34 @@
     </ng-template>
   </p-table>
 </p-panel>
+
+<!--DIALOG DE EDIÇÃO-->
+<p-dialog
+  header="Editar Serviço"
+  [(visible)]="mostrarDialogEditarServico"
+  [modal]="true"
+  [closable]="true"
+  [style]="{width: '350px'}">
+
+  <form (ngSubmit)="salvarEdicao()" #editarForm="ngForm">
+    <div class="p-field">
+      <br>
+      <label for="descricao1">Nome</label>
+      <br>
+      <input id="descricao1" type="text" pInputText [(ngModel)]="servicoEditando.descricao" name="nome1" required />
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="valorUnitario1">Valor Unitário</label>
+      <br>
+      <input id="valorUnitario1" type="text" pInputText [(ngModel)]="servicoEditando.valorUnitario" name="valorUnitario1" required />
+    </div>
+
+    <br>
+    <p-footer>
+      <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right"
+              class="p-button-success"></button>
+    </p-footer>
+  </form>
+</p-dialog>
