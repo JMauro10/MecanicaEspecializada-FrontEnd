@@ -5,22 +5,28 @@ import {Peca} from '../../models/peca';
 import {PecaService} from '../../service/peca.service';
 import {Button, ButtonDirective} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Panel} from 'primeng/panel';
-import {InputText} from 'primeng/inputtext';
+import {InputText, InputTextModule} from 'primeng/inputtext';
+import {Servico} from '../../models/servico';
 
 @Component({
   selector: 'app-peca-list',
-  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, InputText, ButtonDirective],
+  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, InputText, ButtonDirective, InputTextModule, ReactiveFormsModule],
   templateUrl: './peca-list.component.html',
   standalone: true,
   styleUrl: './peca-list.component.css'
 })
 
 export class PecaListComponent {
-  mostrarDialogPeca = false;
-  novaPeca: Peca = {codigo:"",descricao:"",valorUnitario:0,quantidade:0 };
+  novaPeca: Peca = {codigo:"", descricao:"", valorUnitario: 0, quantidade: 0 };
+  pecaEditando: Peca = {codigo:"", descricao:"", valorUnitario: 0, quantidade: 0 };
   listaPecas: Peca[] = [];
+
+  mostrarDialogPeca = false;
+  mostrarDialogEditarPeca = false;
+
+  termoBusca: string = '';
 
   constructor(private pecaService:PecaService) {
     this.pecaService.listarPeca().subscribe(peca => this.listaPecas = peca);
@@ -106,5 +112,44 @@ export class PecaListComponent {
         }
       });
     }
+  }
+
+  editarPeca(peca: Peca) {
+    this.pecaEditando = { ...peca }; // Cópia para edição segura
+    this.mostrarDialogEditarPeca = true;
+  }
+
+  salvarEdicao() {
+    if (!this.pecaEditando.id) {
+      alert("ID do serviço não encontrado para edição.");
+      return;
+    }
+
+    this.pecaService.atualizarPeca(this.pecaEditando).subscribe({
+      next: (pecaAtualizada) => {
+        const index = this.listaPecas.findIndex(s => s.id === pecaAtualizada.id);
+        if (index !== -1) {
+          this.listaPecas[index] = pecaAtualizada;
+        }
+        this.mostrarDialogEditarPeca = false;
+        alert("Peça atualizada com sucesso!");
+      },
+      error: (erro) => {
+        alert("Erro ao atualizar a peça.");
+        console.error("Erro ao salvar edição:", erro);
+      }
+    });
+  }
+
+  get pecasFiltrados(): Servico[] {
+    return this.listaPecas.filter(peca =>
+      !this.termoBusca ||
+      [
+        peca.codigo?.toLowerCase() ?? '',
+        peca.descricao?.toLowerCase() ?? '',
+      ].some(valor =>
+        valor.includes(this.termoBusca.toLowerCase())
+      )
+    );
   }
 }
