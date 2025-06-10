@@ -12,6 +12,7 @@ import {ServicoService} from '../../service/servico.service';
   selector: 'app-servico-list',
   imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, ButtonDirective],
   templateUrl: './servico-list.component.html',
+  standalone: true,
   styleUrl: './servico-list.component.css'
 })
 export class ServicoListComponent {

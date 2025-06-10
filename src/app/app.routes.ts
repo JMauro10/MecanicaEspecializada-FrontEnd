@@ -4,6 +4,10 @@ import {VeiculoListComponent} from './componentes/veiculo-list/veiculo-list.comp
 import {FuncionarioListComponent} from './componentes/funcionario-list/funcionario-list.component';
 import {PecaListComponent} from './componentes/peca-list/peca-list.component';
 import {ServicoListComponent} from './componentes/servico-list/servico-list.component';
+import {OrdemServicoListComponent} from './componentes/ordem-servico-list/ordem-servico-list.component';
+import {
+  OrdemServicoFormularioComponent
+} from './componentes/ordem-servico-formulario/ordem-servico-formulario.component';
 
 export const routes: Routes = [
   {path: 'cliente-list', component: ClienteListComponent},
@@ -11,5 +15,7 @@ export const routes: Routes = [
   {path: 'funcionario-list', component: FuncionarioListComponent},
   {path: 'peca-list', component:PecaListComponent},
   {path: 'servico-list',component: ServicoListComponent},
+  {path: 'ordemServico-list', component:OrdemServicoListComponent},
+  {path: 'ordemServico-formulario',component:OrdemServicoFormularioComponent},
   {path: '', redirectTo: '/cliente-list', pathMatch: 'full'}
 ];

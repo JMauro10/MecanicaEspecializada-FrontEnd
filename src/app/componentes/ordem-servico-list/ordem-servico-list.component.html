@@ -1,4 +1,6 @@
 
+<p-button label="Submit" icon="pi pi-plus-circle" [routerLink]="['/ordemServico-formulario']"></p-button>
+
 <p-panel header="Ordem de Serviços Cadastradas">
   <p-table
     [value]="listaOrdemServicos"
@@ -14,6 +16,7 @@
         <th style="width:25%">Veiculo</th>
         <th style="width:25%">Descrição</th>
         <th style="width:25%">Valor Total</th>
+        <th style="width:15%">Ações</th>
       </tr>
     </ng-template>
     <ng-template #body let-ordemservico>
@@ -24,12 +27,42 @@
         <td>{{ ordemservico.descricao }}</td>
         <td>{{ ordemservico.valorTotal }}</td>
         <td>
-          <button pButton
+          <button
+            *ngIf="ordemservico.status !== 'CANCELADA'"
+            pButton
                   type="button"
-                  icon="pi pi-trash"
+                  icon="pi pi-money-bill"
                   class="p-button-rounded p-button-danger"
                   style="margin-left: 0.5em"
-                  (click)="removerOrdemServico(ordemservico)">
+                  (click)="pagarOrdemServico(ordemservico)">
+          </button>
+
+          <button
+            *ngIf="ordemservico.status !== 'CANCELADA'"
+            pButton
+                  type="button"
+                  icon="pi pi-times"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  (click)="cancelarOrdemServico(ordemservico)">
+          </button>
+          <button
+            *ngIf="ordemservico.status === 'CANCELADA'"
+            pButton
+                  type="button"
+                  icon="pi pi-undo"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  (click)="reabrirOrdemServico(ordemservico)">
+          </button>
+          <button
+            *ngIf="ordemservico.status !== 'CANCELADA'"
+            pButton
+                  type="button"
+                  icon="pi pi-clipboard"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  [routerLink]="['/ordemServico-detalhes']">
           </button>
         </td>
       </tr>
