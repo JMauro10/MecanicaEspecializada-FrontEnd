@@ -83,7 +83,7 @@ export class ServicoListComponent {
       return;
     }
 
-    if (confirm(`Tem certeza que deseja remover o servico "${servico.descricao}"?`)) {
+    if (confirm(`Tem certeza que deseja remover o serviço "${servico.descricao}"?`)) {
       this.servicoService.deletarServicoById(servico.id).subscribe({
         next: () => {
           // Remove da lista localmente após sucesso:

@@ -12,7 +12,7 @@
     />
   </div>
 
-  <!-- Adicionar Servico do lado direito -->
+  <!-- Adicionar Peca do lado direito -->
   <div class="adicionar-peca-container" style="display: flex; flex-direction: column; align-items: flex-end;">
     <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Peça:</span>
     <p-button (click)="onPecaChange()" label="Novo" />
@@ -44,16 +44,16 @@
 
     <div class="p-field">
       <br>
-      <label for="valorUnitario">Valor Unitário</label>
+      <label for="quantidade">Quantidade</label>
       <br>
-      <input id="valorUnitario" type="text" pInputText [(ngModel)]="novaPeca.valorUnitario" name="valorUnitario" required/>
+      <input id="quantidade" type="text" pInputText [(ngModel)]="novaPeca.quantidade" name="quantidade" required/>
     </div>
 
     <div class="p-field">
       <br>
-      <label for="quantidade">Quantidade</label>
+      <label for="valorUnitario">Valor Unitário</label>
       <br>
-      <input id="quantidade" type="text" pInputText [(ngModel)]="novaPeca.quantidade" name="quantidade" required/>
+      <input id="valorUnitario" type="text" pInputText [(ngModel)]="novaPeca.valorUnitario" name="valorUnitario" required/>
     </div>
 
     <br>
@@ -75,8 +75,8 @@
         <th style="width:5%">Id</th>
         <th style="width:15%">Código</th>
         <th style="width:15%">Descrição</th>
-        <th style="width:15%">Valor Unitário</th>
         <th style="width:15%">Quantidade</th>
+        <th style="width:15%">Valor Unitário</th>
         <th style="width:15%">Ações</th>
       </tr>
     </ng-template>
@@ -85,8 +85,8 @@
         <td>{{ peca.id }}</td>
         <td>{{ peca.codigo }}</td>
         <td>{{ peca.descricao }}</td>
-        <td>{{ peca.valorUnitario }}</td>
         <td>{{ peca.quantidade }}</td>
+        <td>{{ peca.valorUnitario }}</td>
         <td>
           <button pButton
                   type="button"
@@ -132,16 +132,16 @@
 
     <div class="p-field">
       <br>
-      <label for="valorUnitario1">Valor Unitário</label>
+      <label for="quantidade1">Quantidade</label>
       <br>
-      <input id="valorUnitario1" type="text" pInputText [(ngModel)]="pecaEditando.valorUnitario" name="valorUnitario1" required />
+      <input id="quantidade1" type="text" pInputText [(ngModel)]="pecaEditando.quantidade" name="quantidade1" required />
     </div>
 
     <div class="p-field">
       <br>
-      <label for="quantidade1">Quantidade</label>
+      <label for="valorUnitario1">Valor Unitário</label>
       <br>
-      <input id="quantidade1" type="text" pInputText [(ngModel)]="pecaEditando.quantidade" name="quantidade1" required />
+      <input id="valorUnitario1" type="text" pInputText [(ngModel)]="pecaEditando.valorUnitario" name="valorUnitario1" required />
     </div>
 
     <br>
