@@ -1,13 +1,28 @@
-<!-- BOTÃO PARA ADICIONAR FUNCIONÁRIO -->
-<br>
-<span style="font-weight: bold;">Adicionar funcionário:</span>
-<br>
-<p-button (click)="onFuncionarioChange()" label="Novo" />
+<!-- Linha de filtros e adicionar cliente -->
+<div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
+  <!-- Filtros do lado esquerdo -->
+  <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
+    <span style="font-weight: bold;">Filtros</span>
+    <input
+      pInputText
+      type="text"
+      [(ngModel)]="termoBusca"
+      placeholder="Buscar por Nome ou CPF"
+      style="min-width: 480px;"
+    />
+  </div>
 
-<!-- DIÁLOGO DE CADASTRO -->
+  <!-- Adicionar Funcionario do lado direito -->
+  <div class="adicionar-funcionario-container" style="display: flex; flex-direction: column; align-items: flex-end;">
+    <span style="font-weight: bold; margin-bottom: 4px;">Adicionar funcionário:</span>
+    <p-button (click)="onFuncionarioChange()" label="Novo" />
+  </div>
+</div>
+
+<!-- DIALOG DE CADASTRO -->
 <p-dialog
   header="Cadastro de Funcionário"
-  [(visible)]="mostrarDialogoFuncionario"
+  [(visible)]="mostrarDialogFuncionario"
   [modal]="true"
   [closable]="true"
   [responsive]="true"
@@ -33,7 +48,7 @@
 <!-- LISTAGEM DE FUNCIONÁRIOS -->
 <p-panel header="Funcionários Cadastrados">
   <p-table
-    [value]="listaFuncionarios"
+    [value]="funcionariosFiltrados"
     [paginator]="true"
     [rows]="20"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -74,10 +89,10 @@
   </p-table>
 </p-panel>
 
-<!-- DIÁLOGO DE EDIÇÃO -->
+<!-- DIALOG DE EDIÇÃO -->
 <p-dialog
   header="Editar Funcionário"
-  [(visible)]="mostrarDialogoEditarFuncionario"
+  [(visible)]="mostrarDialogEditarFuncionario"
   [modal]="true"
   [closable]="true"
   [style]="{width: '350px'}">
