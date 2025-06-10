@@ -4,20 +4,19 @@ export interface OrdemServico {
   id?: number;
   cliente: ClienteDTO;
   veiculo: VeiculoDTO;
-  dataAbertura: Data;
-  dataFechamento?: Data;
-  status?: StatusOrdemServico;
+  dataAbertura: string;
+  dataFechamento?: string;
+  status?:string;
   observacoes?: string;
   valorTotal?: number;
 }
 
 export interface ClienteDTO {
   id: number;
-  tipo: 'fisica' | 'juridica';
+  tipo: string;
 }
 
 export interface VeiculoDTO {
   id: number;
 }
 
-export type StatusOrdemServico = 'EM_ABERTO' | 'EM_ANDAMENTO' | 'PAGA' | 'CANCELADA';

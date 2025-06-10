@@ -1,10 +1,9 @@
-import {Peca} from './peca';
-import {Ordemservico} from './ordemservico';
+
 
 export interface Ordemservicopeca {
   id?:number;
-  peca:Peca;
-  ordemServico:Ordemservico;
+  pecaId:number;
+  ordemServicoId:number;
   quantidade:number;
-  valorTotal:number;
+  valorTotal?:number;
 }

@@ -1,0 +1,38 @@
+
+<p-panel header="Ordem de Serviços Cadastradas">
+  <p-table
+    [value]="listaOrdemServicos"
+    [paginator]="true"
+    [rows]="20"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template #header>
+      <tr>
+        <th style="width:5%">Id</th>
+        <th style="width:15%">Cliente</th>
+        <th style="width:25%">Veiculo</th>
+        <th style="width:25%">Descrição</th>
+        <th style="width:25%">Valor Total</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-ordemservico>
+      <tr>
+        <td>{{ ordemservico.id }}</td>
+        <td>{{ ordemservico.cliente }}</td>
+        <td>{{ ordemservico.veiculo }}</td>
+        <td>{{ ordemservico.descricao }}</td>
+        <td>{{ ordemservico.valorTotal }}</td>
+        <td>
+          <button pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  (click)="removerOrdemServico(ordemservico)">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
