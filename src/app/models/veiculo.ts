@@ -5,5 +5,5 @@ export interface Veiculo {
   ano:number;
   placa:string;
   quilomentragem:number;
-  idCliente:number;
+  idCliente: number;
 }
