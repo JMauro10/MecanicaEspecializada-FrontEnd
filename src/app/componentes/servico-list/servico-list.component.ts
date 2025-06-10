@@ -13,6 +13,7 @@ import {InputTextModule} from 'primeng/inputtext';
   selector: 'app-servico-list',
   imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, ButtonDirective, InputTextModule, ReactiveFormsModule],
   templateUrl: './servico-list.component.html',
+  standalone: true,
   styleUrl: './servico-list.component.css'
 })
 export class ServicoListComponent {
