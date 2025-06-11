@@ -150,9 +150,9 @@
     <ng-template #body let-cliente>
       <tr>
         <td>{{ cliente.id }}</td>
-        <td>{{ cliente.nomeResponsavel }}</td>
+        <td>{{ cliente.nome }}</td>
         <td>{{ cliente.razaoSocial }}</td>
-        <td>{{ cliente.cpfCnpj }}</td>
+        <td>{{ cliente.cpf || cliente.cnpj }}</td>
         <td>{{ cliente.email }}</td>
         <td>{{ cliente.telefone }}</td>
         <td>{{ cliente.tipo }}</td>

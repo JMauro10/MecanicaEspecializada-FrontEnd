@@ -15,6 +15,9 @@ import {IPessoaListaAdapter} from '../../adapter/ipessoa-lista-adapter';
 import {PessoaFisicaAdapter} from '../../adapter/PessoaFisicaAdapter';
 import {PessoaJuridicaAdapter} from '../../adapter/PessoaJuridicaAdapter';
 import {forkJoin} from 'rxjs';
+import {ClienteService} from '../../service/cliente.service';
+import {PessoaFisicaResposta} from '../../models/pessoa-fisica';
+import {PessoaJuridicaResposta} from '../../models/pessoa-juridica';
 
 
 @Component({
@@ -68,7 +71,7 @@ export class ClienteListComponent {
   novoClienteFisica: PessoaFisica = {tipo: 'fisica', nome: '',email: '', telefone: '', cpf: '', dataNasc: new Date};
   novoClienteJuridica: PessoaJuridica = {tipo: 'juridica', nome: '',email: '', telefone: '',razaoSocial: '', cnpj: ''};
 
-
+  listarClientes: (PessoaFisicaResposta | PessoaJuridicaResposta)[] = [];
   listaClientesFisica: PessoaFisica[] = [];
   listaClientesJuridica: PessoaJuridica[] = [];
   listaUnificada: IPessoaListaAdapter[] = [];
@@ -88,7 +91,7 @@ export class ClienteListComponent {
     ];
   }
 
-  constructor(private pessoaFisicaService: PessoaFisicaService, private pessoaJuridicaService: PessoaJuridicaService, private fb: FormBuilder) {
+  constructor(private clienteService: ClienteService, private pessoaFisicaService: PessoaFisicaService, private pessoaJuridicaService: PessoaJuridicaService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -101,6 +104,15 @@ export class ClienteListComponent {
       this.listaClientesFisica = fisicas;
       this.listaClientesJuridica = juridicas;
       this.unificarListas();
+    });
+
+    this.clienteService.listarClientes().subscribe({
+      next: (data) => {
+        this.listarClientes = data;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar clientes', err);
+      }
     });
 
     this.form = this.fb.group({
@@ -182,6 +194,7 @@ export class ClienteListComponent {
           dataNasc: new Date()
         };
         this.mostrarDialogoPessoaFisica = false;
+        this.ngOnInit();
       },
       error: (erro) => {
         if (erro.status === 400 || erro.status === 409) {
@@ -247,6 +260,7 @@ export class ClienteListComponent {
               cnpj: ''
             };
             this.mostrarDialogoPessoaJuridica = false;
+            this.ngOnInit();
           },
           error: (erro) => {
             if (erro.status === 400 || erro.status === 409) {
@@ -290,6 +304,7 @@ export class ClienteListComponent {
             this.listaClientesFisica = this.listaClientesFisica.filter(g => g.id !== cliente.id);
             this.unificarListas();
             alert('Cliente removido com sucesso!');
+            this.ngOnInit();
           },
           error: () => {
             alert('Ocorreu um erro ao tentar remover o cliente.');
@@ -382,6 +397,7 @@ export class ClienteListComponent {
         }
         this.exibeModalEdicaoFisica = false;
         alert('Cliente atualizado com sucesso!');
+        this.ngOnInit();
       },
       error: (erro) => {
         if (erro.status === 409) {
@@ -417,6 +433,7 @@ export class ClienteListComponent {
         if (idx !== -1) {
           this.listaUnificada[idx] = new PessoaJuridicaAdapter(clienteAtualizado);
           this.listaUnificada = [...this.listaUnificada];
+          this.ngOnInit();
         }
         this.exibeModalEdicaoJuridica = false;
         alert('Cliente atualizado com sucesso!');
@@ -434,22 +451,37 @@ export class ClienteListComponent {
     });
   }
 
-  get clientesFiltrados(): IPessoaListaAdapter[] {
-    return this.listaUnificada
-      .filter(cliente =>
-        !this.tipoSelecionado || cliente.tipo === this.tipoSelecionado
-      )
-      .filter(cliente =>
-          !this.termoBusca || [
-            cliente.nomeResponsavel?.toLowerCase() ?? '',
-            cliente.razaoSocial?.toLowerCase() ?? '',
-            cliente.cpfCnpj?.toLowerCase() ?? '',
-            cliente.email?.toLowerCase() ?? '',
-            cliente.telefone?.toLowerCase() ?? ''
-          ].some(valor =>
-            valor.includes(this.termoBusca.toLowerCase())
-          )
-      );
+  get clientesFiltrados(): (PessoaFisicaResposta | PessoaJuridicaResposta)[] {
+    return this.listarClientes
+      .filter(cliente => !this.tipoSelecionado)
+      .filter(cliente => {
+        const termo = this.termoBusca?.toLowerCase() ?? '';
+
+        // Campos comuns
+        let valores: string[] = [
+          cliente.nome?.toLowerCase() ?? '',
+          cliente.email?.toLowerCase() ?? '',
+          cliente.telefone?.toLowerCase() ?? ''
+        ];
+
+        // Se for Pessoa Jurídica, acessar propriedades específicas
+        if ('razaoSocial' in cliente && 'cnpj' in cliente) {
+          valores.push(
+            (cliente as PessoaJuridicaResposta).razaoSocial?.toLowerCase() ?? '',
+            (cliente as PessoaJuridicaResposta).cnpj?.toLowerCase() ?? ''
+          );
+        }
+
+        // Se for Pessoa Física, acessar propriedades específicas
+        if ('cpf' in cliente) {
+          valores.push(
+            (cliente as PessoaFisicaResposta).cpf?.toLowerCase() ?? ''
+          );
+        }
+
+        // Verifica se algum valor contém o termo
+        return !this.termoBusca || valores.some(valor => valor.includes(termo));
+      });
   }
 
 
