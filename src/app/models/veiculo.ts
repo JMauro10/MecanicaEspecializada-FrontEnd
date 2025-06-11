@@ -9,5 +9,5 @@ export interface Veiculo {
   ano:number;
   placa:string;
   quilometragem:number;
-  cliente: Cliente;
+  clienteId: number;
 }
