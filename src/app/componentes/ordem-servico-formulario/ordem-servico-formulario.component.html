@@ -24,16 +24,17 @@
       [filter]="true">
 
       <ng-template let-veiculo pTemplate="item">
-        {{ veiculo.marca }} - {{ veiculo.modelo }}
+        {{ veiculo.marca }} - {{ veiculo.modelo }} - {{ veiculo.placa }}
       </ng-template>
 
       <ng-template let-veiculo pTemplate="selectedItem">
-        {{ veiculo?.marca }} - {{ veiculo?.modelo }}
+        {{ veiculo?.marca }} - {{ veiculo?.modelo }} - {{ veiculo?.placa }}
       </ng-template>
 
     </p-dropdown>
     <label>Veículo</label>
   </p-floatlabel>
+
   <br>
   <p-datepicker [(ngModel)]="novaOrdemServico.dataAbertura" [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false"></p-datepicker>
   <br>
