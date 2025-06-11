@@ -1,5 +1,6 @@
 import {Marca} from './marca';
 import {Modelo} from './modelo';
+import {Cliente} from './Cliente';
 
 export interface Veiculo {
   id?:number;
@@ -7,6 +8,6 @@ export interface Veiculo {
   modelo:Modelo;
   ano:number;
   placa:string;
-  quilomentragem:number;
-  idCliente: number;
+  quilometragem:number;
+  cliente: Cliente;
 }

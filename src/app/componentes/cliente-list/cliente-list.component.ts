@@ -41,13 +41,29 @@ import {PessoaJuridicaResposta} from '../../models/pessoa-juridica';
 })
 export class ClienteListComponent {
 
-  // Filtros
+  // FILTROS
   termoBusca: string = '';
   tipoSelecionado: string = ''; // Exemplo: '', 'FISICA', 'JURIDICA' etc.
+  tiposPessoa = [
+    {label: 'Todos', value: ''},
+    {label: 'Pessoa Física', value: 'fisica'},
+    {label: 'Pessoa Jurídica', value: 'juridica'},
+  ];
+  clientes = [
+    { label: 'Pessoa Física', value: 'fisica' },
+    { label: 'Pessoa Jurídica', value: 'juridica' }
+  ];
 
 
 
-
+  //ATRIBUTOS
+  selecionarCliente: string | null = null;
+  novoClienteFisica: PessoaFisica = {tipo: 'fisica', nome: '',email: '', telefone: '', cpf: '', dataNasc: new Date};
+  novoClienteJuridica: PessoaJuridica = {tipo: 'juridica', nome: '',email: '', telefone: '',razaoSocial: '', cnpj: ''};
+  listarClientes: (PessoaFisicaResposta | PessoaJuridicaResposta)[] = [];
+  listaClientesFisica: PessoaFisica[] = [];
+  listaClientesJuridica: PessoaJuridica[] = [];
+  listaUnificada: IPessoaListaAdapter[] = [];
   exibeModalEdicaoFisica: boolean = false;
   exibeModalEdicaoJuridica: boolean = false;
   form!: FormGroup;
@@ -55,45 +71,16 @@ export class ClienteListComponent {
   mostrarDialogoPessoaFisica = false;
   mostrarDialogoPessoaJuridica = false;
 
-  tiposPessoa = [
-    {label: 'Todos', value: ''},
-    {label: 'Pessoa Física', value: 'fisica'},
-    {label: 'Pessoa Jurídica', value: 'juridica'},
-  ];
 
-  clientes = [
-    { label: 'Pessoa Física', value: 'fisica' },
-    { label: 'Pessoa Jurídica', value: 'juridica' }
-  ];
 
-  selecionarCliente: string | null = null;
 
-  novoClienteFisica: PessoaFisica = {tipo: 'fisica', nome: '',email: '', telefone: '', cpf: '', dataNasc: new Date};
-  novoClienteJuridica: PessoaJuridica = {tipo: 'juridica', nome: '',email: '', telefone: '',razaoSocial: '', cnpj: ''};
-
-  listarClientes: (PessoaFisicaResposta | PessoaJuridicaResposta)[] = [];
-  listaClientesFisica: PessoaFisica[] = [];
-  listaClientesJuridica: PessoaJuridica[] = [];
-  listaUnificada: IPessoaListaAdapter[] = [];
-
-  unificarListas() {
-    const adaptadasFisica = this.listaClientesFisica.map(
-      pf => new PessoaFisicaAdapter(pf)
-    );
-
-    const adaptadasJuridica = this.listaClientesJuridica.map(
-      pj => new PessoaJuridicaAdapter(pj)
-    );
-
-    this.listaUnificada = [
-      ...adaptadasFisica,
-      ...adaptadasJuridica
-    ];
-  }
-
+  //CONSTRUTOR
   constructor(private clienteService: ClienteService, private pessoaFisicaService: PessoaFisicaService, private pessoaJuridicaService: PessoaJuridicaService, private fb: FormBuilder) {
   }
 
+
+
+  //METODO DE PREENCHIMENTO DE LISTA E DE FORMULÁRIOS AUTOMATICO
   ngOnInit() {
     console.log('Primeiro cliente:', this.listaUnificada[0]);
     console.log("Todos os tipos encontrados:", [...new Set(this.listaUnificada.map(c => c.tipo))]);
@@ -137,6 +124,26 @@ export class ClienteListComponent {
   }
 
 
+
+  //METODO PARA UNIFICAÇÃO DAS LISTAS PESSOA FISICA E JURIDICA
+  unificarListas() {
+    const adaptadasFisica = this.listaClientesFisica.map(
+      pf => new PessoaFisicaAdapter(pf)
+    );
+
+    const adaptadasJuridica = this.listaClientesJuridica.map(
+      pj => new PessoaJuridicaAdapter(pj)
+    );
+
+    this.listaUnificada = [
+      ...adaptadasFisica,
+      ...adaptadasJuridica
+    ];
+  }
+
+
+
+  //METODO DE ABRIR POPUP PARA EDIÇÃO AMBOS TIPOS DE PESSOA
   onClienteChange(clienteSelecionado: string) {
     if (clienteSelecionado === 'fisica') {
       // Zera objeto de pessoa física antes de abrir o modal!
@@ -163,6 +170,9 @@ export class ClienteListComponent {
     }
   }
 
+
+
+  //METODO PARA ADICIONAR PESSOA FISICA
   adicionarClienteFisica() {
     if(!this.novoClienteFisica.nome.trim()){
       alert('O nome é obrigatório!');
@@ -206,6 +216,9 @@ export class ClienteListComponent {
     });
   }
 
+
+
+  //METODO PARA ATUALIZAR A LISTA DE CLIENTE FISICA
   atualizarListaClientesFisica(): void {
     this.pessoaFisicaService.listarClienteFisica().subscribe(pessoaFisica => {
       console.log('Retorno do backend:', pessoaFisica);
@@ -215,6 +228,8 @@ export class ClienteListComponent {
   }
 
 
+
+  //METODO PARA ADICIONAR PESSOA JURIDICA
   adicionarClienteJuridica() {
     if (!this.novoClienteJuridica.nome.trim()) {
       alert('O nome do responsável é obrigatório!');
@@ -278,6 +293,9 @@ export class ClienteListComponent {
     });
   }
 
+
+
+  //METODO PARA ATUALIZAR A LISTA DE CLIENTE JURIDICA
   atualizarListaClientesJuridica(): void {
     this.pessoaJuridicaService.listarClienteJuridica().subscribe(pessoaJuridica => {
       console.log('Retorno do backend:', pessoaJuridica);
@@ -287,6 +305,8 @@ export class ClienteListComponent {
   }
 
 
+
+  //METODO PARA REMOVER AMBOS TIPOS DE CLIENTE
   removerCliente(cliente: any) {
     if (cliente.id === undefined) {
       alert("ID do cliente não encontrado. Não é possível remover.");
@@ -294,7 +314,7 @@ export class ClienteListComponent {
     }
 
     const mensagem = cliente.tipo === 'fisica'
-      ? `Tem certeza que deseja remover o cliente "${cliente.nomeResponsavel}"?`
+      ? `Tem certeza que deseja remover o cliente "${cliente.nome}"?`
       : `Tem certeza que deseja remover a empresa "${cliente.razaoSocial}"?`;
 
     if (confirm(mensagem)) {
@@ -316,6 +336,7 @@ export class ClienteListComponent {
             this.listaClientesJuridica = this.listaClientesJuridica.filter(g => g.id !== cliente.id);
             this.unificarListas();
             alert('Empresa removida com sucesso!');
+            this.ngOnInit();
           },
           error: () => {
             alert('Ocorreu um erro ao tentar remover a empresa.');
@@ -327,6 +348,9 @@ export class ClienteListComponent {
     }
   }
 
+
+
+  //METODO PARA MOSTRAR OS DADOS NA EDIÇÃO DE PESSOA FISICA
   editarClienteFisica(pessoaFisica: PessoaFisica) {
     console.log('Pessoa recebida para edição:', pessoaFisica);
     this.exibeModalEdicaoFisica = true;
@@ -346,6 +370,9 @@ export class ClienteListComponent {
     });
   }
 
+
+
+  //METODO PARA MOSTRAR OS DADOS NA EDIÇÃO DE PESSOA JURIDICA
   editarClienteJuridica(pessoaJuridica: PessoaJuridica) {
     this.exibeModalEdicaoJuridica = true;
     setTimeout(() => {
@@ -365,6 +392,9 @@ export class ClienteListComponent {
     });
   }
 
+
+
+  //METODO PARA ABRIR O POPUP PARA EDIÇÃO DE PESSOA FISICA OU JURIDICA
   abrirEdicao(id: number, tipo: string) {
     if (tipo === 'fisica') {
       // Busca o objeto original na lista de Pessoas Físicas
@@ -382,6 +412,7 @@ export class ClienteListComponent {
 
 
 
+  //METODO PARA SALVAR A EDIÇÃO DE PESSOA FISICA
   salvarEdicaoFisica() {
     if (this.form.invalid) {
       return;
@@ -411,6 +442,9 @@ export class ClienteListComponent {
     });
   }
 
+
+
+  //METODO PARA SALVAR A EDIÇÃO DE PESSOA JURIDICA
   salvarEdicaoJuridica() {
     if (this.formJuridica.invalid) {
       return;
@@ -451,35 +485,42 @@ export class ClienteListComponent {
     });
   }
 
+
+
+  //METODO DE PARA FILTRAGEM
   get clientesFiltrados(): (PessoaFisicaResposta | PessoaJuridicaResposta)[] {
     return this.listarClientes
-      .filter(cliente => !this.tipoSelecionado)
       .filter(cliente => {
+        // Filtro pelo tipo selecionado
+        if (!this.tipoSelecionado) return true;
+        if (this.tipoSelecionado === 'fisica') {
+          return 'cpf' in cliente;
+        }
+        if (this.tipoSelecionado === 'juridica') {
+          return 'cnpj' in cliente && 'razaoSocial' in cliente;
+        }
+        // Caso por algum motivo venha outro tipo
+        return true;
+      })
+      .filter(cliente => {
+        // Filtro pelo termo de busca
         const termo = this.termoBusca?.toLowerCase() ?? '';
-
-        // Campos comuns
         let valores: string[] = [
           cliente.nome?.toLowerCase() ?? '',
           cliente.email?.toLowerCase() ?? '',
           cliente.telefone?.toLowerCase() ?? ''
         ];
-
-        // Se for Pessoa Jurídica, acessar propriedades específicas
         if ('razaoSocial' in cliente && 'cnpj' in cliente) {
           valores.push(
             (cliente as PessoaJuridicaResposta).razaoSocial?.toLowerCase() ?? '',
             (cliente as PessoaJuridicaResposta).cnpj?.toLowerCase() ?? ''
           );
         }
-
-        // Se for Pessoa Física, acessar propriedades específicas
         if ('cpf' in cliente) {
           valores.push(
             (cliente as PessoaFisicaResposta).cpf?.toLowerCase() ?? ''
           );
         }
-
-        // Verifica se algum valor contém o termo
         return !this.termoBusca || valores.some(valor => valor.includes(termo));
       });
   }

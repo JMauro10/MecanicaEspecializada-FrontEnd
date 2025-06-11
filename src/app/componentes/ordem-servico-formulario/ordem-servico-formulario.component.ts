@@ -21,7 +21,6 @@ import {IftaLabel} from 'primeng/iftalabel';
     Panel,
     FloatLabel,
     FormsModule,
-    InputText,
     Button,
     DropdownModule,
     DatePicker,
