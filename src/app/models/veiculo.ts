@@ -1,7 +1,8 @@
+import {Modelo} from './modelo';
+
 export interface Veiculo {
   id?:number;
-  marca:string;
-  modelo:string;
+  modelo: Modelo;
   ano:number;
   placa:string;
   quilomentragem:number;
