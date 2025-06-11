@@ -38,6 +38,14 @@ export class AppComponent {
     {
       label: 'Serviços',
       routerLink: '/servico-list'
+    },
+    {
+      label: 'Marca',
+      routerLink: '/marca-list'
+    },
+    {
+      label: 'Modelo',
+      routerLink: '/modelo-list'
     }
   ];
 }
