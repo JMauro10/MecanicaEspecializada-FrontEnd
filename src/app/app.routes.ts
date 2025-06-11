@@ -5,9 +5,7 @@ import {FuncionarioListComponent} from './componentes/funcionario-list/funcionar
 import {PecaListComponent} from './componentes/peca-list/peca-list.component';
 import {ServicoListComponent} from './componentes/servico-list/servico-list.component';
 import {OrdemServicoListComponent} from './componentes/ordem-servico-list/ordem-servico-list.component';
-import {
-  OrdemServicoFormularioComponent
-} from './componentes/ordem-servico-formulario/ordem-servico-formulario.component';
+import {OrdemServicoFormularioComponent} from './componentes/ordem-servico-formulario/ordem-servico-formulario.component';
 import {OrdemservicoDetalhesComponent} from './componentes/ordemservico-detalhes/ordemservico-detalhes.component';
 import {MarcaListComponent} from './componentes/marca-list/marca-list.component';
 import {ModeloListComponent} from './componentes/modelo-list/modelo-list.component';
