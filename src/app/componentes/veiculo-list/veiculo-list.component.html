@@ -1,6 +1,53 @@
-<br>
-<br>
 
+
+<!-- Adicionar Veiculo do lado direito -->
+<div class="adicionar-peca-container" style="display: flex; flex-direction: column; align-items: flex-end;">
+  <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Veículo:</span>
+  <p-button (click)="onVeiculoChange()" icon="pi pi-check" iconPos="right" type="submit" label="Novo" />
+</div>
+
+
+<!--&lt;!&ndash;DIALOG DE CADASTRO VEICULO&ndash;&gt;-->
+<!--<p-dialog-->
+<!--  header="Cadastro de Peça"-->
+<!--  [(visible)]="mostrarDialogVeiculo"-->
+<!--  [modal]="true"-->
+<!--  [closable]="true"-->
+<!--  [responsive]="true"-->
+<!--  [style]="{width: '30vw'}">-->
+
+<!--  <form (ngSubmit)="adicionarVeiculo()" #veiculoForm="ngForm">-->
+<!--    <div class="p-field">-->
+<!--      <label for="codigo">Código</label>-->
+<!--      <br>-->
+<!--      <input id="codigo" type="text" pInputText [(ngModel)]="novaPeca.codigo" name="codigo" required/>-->
+<!--    </div>-->
+
+<!--    <div class="p-field">-->
+<!--      <br>-->
+<!--      <label for="descricao">Descrição</label>-->
+<!--      <br>-->
+<!--      <input id="descricao" type="text" pInputText [(ngModel)]="novaPeca.descricao" name="descricao" required/>-->
+<!--    </div>-->
+
+<!--    <div class="p-field">-->
+<!--      <br>-->
+<!--      <label for="quantidade">Quantidade</label>-->
+<!--      <br>-->
+<!--      <input id="quantidade" type="text" pInputText [(ngModel)]="novaPeca.quantidade" name="quantidade" required/>-->
+<!--    </div>-->
+
+<!--    <div class="p-field">-->
+<!--      <br>-->
+<!--      <label for="valorUnitario">Valor Unitário</label>-->
+<!--      <br>-->
+<!--      <input id="valorUnitario" type="text" pInputText [(ngModel)]="novaPeca.valorUnitario" name="valorUnitario" required/>-->
+<!--    </div>-->
+
+<!--    <br>-->
+<!--    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>-->
+<!--  </form>-->
+<!--</p-dialog>-->
 
 <!--<p-panel header="Veículos Cadastrados">-->
 <!--  <p-table [value]="listaVeiculos" [paginator]="true" [rows]="5">-->
