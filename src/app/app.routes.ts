@@ -8,14 +8,20 @@ import {OrdemServicoListComponent} from './componentes/ordem-servico-list/ordem-
 import {
   OrdemServicoFormularioComponent
 } from './componentes/ordem-servico-formulario/ordem-servico-formulario.component';
+import {OrdemservicoDetalhesComponent} from './componentes/ordemservico-detalhes/ordemservico-detalhes.component';
+import {MarcaListComponent} from './componentes/marca-list/marca-list.component';
+import {ModeloListComponent} from './componentes/modelo-list/modelo-list.component';
 
 export const routes: Routes = [
   {path: 'cliente-list', component: ClienteListComponent},
+  {path: 'marca-list', component: MarcaListComponent},
+  {path: 'modelo-list', component: ModeloListComponent},
   {path: 'veiculo-list', component: VeiculoListComponent},
   {path: 'funcionario-list', component: FuncionarioListComponent},
   {path: 'peca-list', component:PecaListComponent},
   {path: 'servico-list',component: ServicoListComponent},
   {path: 'ordemServico-list', component:OrdemServicoListComponent},
   {path: 'ordemServico-formulario',component:OrdemServicoFormularioComponent},
-  {path: '', redirectTo: '/cliente-list', pathMatch: 'full'}
+  {path: 'ordemServico-detalhes',component:OrdemservicoDetalhesComponent},
+  {path: '', redirectTo: '/ordemServico-list', pathMatch: 'full'}
 ];

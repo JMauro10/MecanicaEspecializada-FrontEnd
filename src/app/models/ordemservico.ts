@@ -14,9 +14,11 @@ export interface OrdemServico {
 export interface ClienteDTO {
   id: number;
   tipo: string;
+  nome?: string
 }
 
 export interface VeiculoDTO {
   id: number;
+  descricaoVeiculo?: string
 }
 

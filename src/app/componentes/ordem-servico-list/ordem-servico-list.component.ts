@@ -41,6 +41,7 @@ export class OrdemServicoListComponent {
     if (confirm(`Tem certeza que deseja reabrir a ordem de serviço "${ordemServico.id}"?`)) {
       this.ordemServicoService.reabrirOrdemServico(ordemServico.id).subscribe({
         next: () => {
+          this.ordemServicoService.listarOrdemSerivico().subscribe(ordemservico => this.listaOrdemServicos = ordemservico);
           alert('Ordem de Serviço foi reaberta com sucesso!');
         },
         error: () => {
@@ -58,6 +59,7 @@ export class OrdemServicoListComponent {
     if (confirm(`Tem certeza que deseja cancelar a ordem de serviço "${ordemServico.id}"?`)) {
       this.ordemServicoService.cancelarOrdemServico(ordemServico.id).subscribe({
         next: () => {
+          this.ordemServicoService.listarOrdemSerivico().subscribe(ordemservico => this.listaOrdemServicos = ordemservico);
           alert('Ordem de Serviço foi cancelada com sucesso!');
         },
         error: () => {
@@ -75,6 +77,7 @@ export class OrdemServicoListComponent {
     if (confirm(`Tem certeza que deseja pagar a ordem de serviço "${ordemServico.id}"?`)) {
       this.ordemServicoService.pagarOrdemServico(ordemServico.id).subscribe({
         next: () => {
+          this.ordemServicoService.listarOrdemSerivico().subscribe(ordemservico => this.listaOrdemServicos = ordemservico);
           alert('Ordem de Serviço foi paga com sucesso!');
         },
         error: () => {
