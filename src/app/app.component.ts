@@ -16,6 +16,10 @@ export class AppComponent {
 
   items: MenuItem[] = [
     {
+      label: 'Home',
+      routerLink: '/ordemServico-list'
+    },
+    {
       label: 'Clientes',
       routerLink: '/cliente-list'
     },

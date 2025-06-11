@@ -8,6 +8,7 @@ import {OrdemServicoListComponent} from './componentes/ordem-servico-list/ordem-
 import {
   OrdemServicoFormularioComponent
 } from './componentes/ordem-servico-formulario/ordem-servico-formulario.component';
+import {OrdemservicoDetalhesComponent} from './componentes/ordemservico-detalhes/ordemservico-detalhes.component';
 
 export const routes: Routes = [
   {path: 'cliente-list', component: ClienteListComponent},
@@ -17,5 +18,6 @@ export const routes: Routes = [
   {path: 'servico-list',component: ServicoListComponent},
   {path: 'ordemServico-list', component:OrdemServicoListComponent},
   {path: 'ordemServico-formulario',component:OrdemServicoFormularioComponent},
-  {path: '', redirectTo: '/cliente-list', pathMatch: 'full'}
+  {path: 'ordemServico-detalhes',component:OrdemservicoDetalhesComponent},
+  {path: '', redirectTo: '/ordemServico-list', pathMatch: 'full'}
 ];
