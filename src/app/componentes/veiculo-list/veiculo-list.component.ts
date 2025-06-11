@@ -39,10 +39,9 @@ import {Cliente} from '../../models/Cliente';
 })
 export class VeiculoListComponent {
 
-  cliente: Cliente = {nome: '', email: '', telefone:''}
   marca: Marca = {nome: ''}
   modelo: Modelo = {nome: '', marca: this.marca}
-  novoVeiculo: Veiculo = {marca: this.marca, modelo: this.modelo,ano: 0, placa: '', quilometragem: 0, cliente: this.cliente};
+  novoVeiculo: Veiculo = {marca: this.marca, modelo: this.modelo,ano: 0, placa: '', quilometragem: 0, clienteId: 0};
   listaVeiculos: Veiculo[] = [];
   listaMarcas: Marca[] = [];
   listaModelos: Modelo[] = [];

@@ -27,25 +27,6 @@
     </div>
 
     <br>
-
-    <div class="p-field">
-      <br>
-      <label for="marca">Marca do Veículo</label>
-      <br>
-      <p-dropdown
-        id="marca"
-        inputId="marca"
-        [options]="listaMarcas"
-        [(ngModel)]="novoVeiculo.marca"
-        name="marca"
-        optionLabel="nome"
-        placeholder="Selecione a marca"
-        required>
-      </p-dropdown>
-    </div>
-
-    <br>
-
     <div class="p-field">
       <br>
       <label for="modelo">Modelo do Veículo</label>
@@ -65,18 +46,17 @@
     <br>
 
     <div class="p-field">
-      <br>
-      <label for="cliente">Cliente</label>
-      <br>
       <p-dropdown
-        id="cliente"
-        inputId="cliente"
-        [options]="listaClientes"
-        [(ngModel)]="novoVeiculo.cliente"
-        name="cliente"
-        optionLabel="nome"
-        placeholder="Selecione o cliente"
-        required>
+      id="cliente"
+      inputId="cliente"
+      [options]="listaClientes"
+      [(ngModel)]="novoVeiculo.clienteId"
+      name="cliente"
+      [optionLabel]="'nome'"
+      [dataKey]="'id'"
+      [optionValue]="'id'"
+      placeholder="Selecione o cliente"
+      required>
       </p-dropdown>
     </div>
 
