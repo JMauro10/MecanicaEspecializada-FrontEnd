@@ -1,1 +1,46 @@
-<p>ordem-servico-formulario works!</p>
+<p-panel >
+  <h2>Inserir</h2>
+  <p-floatlabel>
+    <p-dropdown
+      inputId="cliente"
+      [options]="clientes"
+      [(ngModel)]="novaOrdemServico.cliente"
+      optionLabel="nome"
+      placeholder="Selecione um cliente">
+    </p-dropdown>
+    <label>Cliente</label>
+  </p-floatlabel>
+  <br>
+  <p-floatlabel>
+    <p-dropdown
+      inputId="veiculo"
+      [options]="veiculos"
+      [(ngModel)]="novaOrdemServico.veiculo"
+      placeholder="Selecione um veículo"
+      [filter]="true">
+
+      <ng-template let-veiculo pTemplate="item">
+        {{ veiculo.marca }} - {{ veiculo.modelo }}
+      </ng-template>
+
+      <ng-template let-veiculo pTemplate="selectedItem">
+        {{ veiculo?.marca }} - {{ veiculo?.modelo }}
+      </ng-template>
+
+    </p-dropdown>
+    <label>Veículo</label>
+  </p-floatlabel>
+  <br>
+  <p-datepicker [(ngModel)]="novaOrdemServico.dataAbertura" [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false"></p-datepicker>
+  <br>
+  <br>
+  <p-datepicker [(ngModel)]="novaOrdemServico.dataFechamento" [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false"></p-datepicker>
+  <br>
+  <br>
+  <p-iftalabel>
+    <textarea pTextarea id="observacao" [(ngModel)]="novaOrdemServico.observacoes" rows="5" cols="65" style="resize: none"></textarea>
+    <label for="observacao">Descrição</label>
+  </p-iftalabel>
+  <br>
+  <p-button label="Salvar" (click)="incluirOrdemServico()" />
+</p-panel>
