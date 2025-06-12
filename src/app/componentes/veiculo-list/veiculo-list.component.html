@@ -1,12 +1,22 @@
-
-
-<!-- Adicionar Veiculo do lado direito -->
-<div class="adicionar-veiculo-container" style="display: flex; flex-direction: column; align-items: flex-end;">
-  <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Veículo:</span>
-  <p-button (click)="onVeiculoChange()"  iconPos="left" type="submit" label="Novo" icon="pi pi-plus-circle"/>
+<!-- Linha de filtros e adicionar veiculo -->
+<div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
+  <!-- Filtros do lado esquerdo -->
+  <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
+    <span style="font-weight: bold;">Filtros</span>
+    <input
+      pInputText
+      type="text"
+      [(ngModel)]="termoBusca"
+      placeholder="Buscar por Placa, Marca, Modelo, Proprietário ou Ano"
+      style="min-width: 480px;"
+    />
+  </div>
+  <!-- Adicionar veiculo do lado direito -->
+  <div class="adicionar-veiculo-container" style="display: flex; flex-direction: column; align-items: flex-end;">
+    <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Veículo:</span>
+    <p-button (click)="onVeiculoChange()"  iconPos="left" type="submit" label="Novo" icon="pi pi-plus-circle"/>
+  </div>
 </div>
-
-<br>
 
 <!--DIALOG DE CADASTRO VEICULO-->
 <p-dialog
@@ -20,16 +30,14 @@
   <form (ngSubmit)="adicionarVeiculo()" #veiculoForm="ngForm">
 
     <div class="p-field">
-      <br>
-      <label for="placa">Placa do Veículo</label>
+      <label for="placa">Placa</label>
       <br>
       <input id="placa" type="text" pInputText [(ngModel)]="novoVeiculo.placa" name="placa" required/>
     </div>
 
-    <br>
     <div class="p-field">
       <br>
-      <label for="modelo">Modelo do Veículo</label>
+      <label for="modelo">Modelo</label>
       <br>
       <p-dropdown
         id="modelo"
@@ -46,6 +54,8 @@
     <br>
 
     <div class="p-field">
+      <label for="cliente">Cliente</label>
+      <br>
       <p-dropdown
       id="cliente"
       inputId="cliente"
@@ -63,7 +73,6 @@
     <br>
 
     <div class="p-field">
-      <br>
       <label for="km">Quilometragem</label>
       <br>
       <input id="km" type="number" pInputText [(ngModel)]="novoVeiculo.quilometragem" name="km" required/>
@@ -72,7 +81,6 @@
     <br>
 
     <div class="p-field">
-      <br>
       <label for="ano">Ano do Veículo</label>
       <br>
       <input id="ano" type="number" pInputText [(ngModel)]="novoVeiculo.ano" name="ano" required/>
@@ -88,7 +96,7 @@
 
 <!--Tabela de Veiculos-->
 <p-panel header="Veículos Cadastrados">
-  <p-table [value]="listaVeiculos" [paginator]="true" [rows]="20">
+  <p-table [value]="veiculosFiltrados" [paginator]="true" [rows]="20">
     <ng-template pTemplate="header">
       <tr>
         <th>Id</th>
@@ -107,13 +115,95 @@
         <td>{{ veiculo.placa }}</td>
         <td>{{ veiculo.modelo?.marca?.nome }}</td>
         <td>{{ veiculo.modelo?.nome }}</td>
-        <td>{{ veiculo.cliente?.nome }}</td>
+        <td>{{ getNomeClientePorId(veiculo.clienteId) }}</td>
         <td>{{ veiculo.quilometragem }}</td>
         <td>{{ veiculo.ano }}</td>
         <td>
-          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="removerVeiculo(veiculo)"></button>
+          <button pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded custom-edit-button"
+                  style="margin-left: 0.5em"
+                  (click)="editarVeiculo(veiculo)">
+          </button>
+          <button pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  (click)="removerVeiculo(veiculo)">
+          </button>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </p-panel>
+
+<!--DIALOG EDICAO-->
+<p-dialog
+  header="Editar Veiculo"
+  [(visible)]="mostrarDialogEditarVeiculo"
+  [modal]="true"
+  [closable]="true"
+  [style]="{width: '350px'}">
+<form (ngSubmit)="salvarEdicao()" #editarForm="ngForm">
+  <div class="p-field">
+    <br>
+    <label for="placa1">Placa</label>
+    <br>
+    <input id="placa1" type="text" pInputText [(ngModel)]="veiculoEditando.placa" name="placa1" required />
+  </div>
+
+  <div class="p-field">
+    <br>
+    <label for="modelo1">Modelo</label><br>
+    <p-dropdown
+      id="modelo1"
+      inputId="modelo1"
+      [options]="listaModelos"
+      [(ngModel)]="veiculoEditando.modelo"
+      name="modelo1"
+      optionLabel="nome"
+      placeholder="Selecione o modelo"
+      required>
+    </p-dropdown>
+  </div>
+
+  <div class="p-field">
+    <br>
+    <label for="cliente1">Cliente</label><br>
+    <p-dropdown
+      id="cliente1"
+      inputId="cliente1"
+      [options]="listaClientes"
+      [(ngModel)]="veiculoEditando.clienteId"
+      name="cliente1"
+      optionLabel="nome"
+      optionValue="id"
+      placeholder="Selecione o cliente"
+      required>
+    </p-dropdown>
+  </div>
+
+  <div class="p-field">
+    <br>
+    <label for="quilometragem1">Quilometragem</label>
+    <br>
+    <input id="quilometragem1" type="text" pInputText [(ngModel)]="veiculoEditando.quilometragem" name="quilometragem1" required />
+  </div>
+
+  <div class="p-field">
+    <br>
+    <label for="ano1">Ano</label>
+    <br>
+    <input id="ano1" type="text" pInputText [(ngModel)]="veiculoEditando.ano" name="ano1" required />
+  </div>
+
+
+  <br>
+  <p-footer>
+    <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right"
+            class="p-button-success"></button>
+  </p-footer>
+</form>
+</p-dialog>

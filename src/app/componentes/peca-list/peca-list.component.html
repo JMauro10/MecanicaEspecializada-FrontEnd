@@ -1,4 +1,4 @@
-<!-- Linha de filtros e adicionar cliente -->
+<!-- Linha de filtros e adicionar peca -->
 <div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
   <!-- Filtros do lado esquerdo -->
   <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
@@ -12,7 +12,7 @@
     />
   </div>
 
-  <!-- Adicionar Peca do lado direito -->
+  <!-- Adicionar peca do lado direito -->
   <div class="adicionar-peca-container" style="display: flex; flex-direction: column; align-items: flex-end;">
     <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Peça:</span>
     <p-button (click)="onPecaChange()" label="Novo" icon="pi pi-plus-circle"/>
@@ -61,10 +61,10 @@
   </form>
 </p-dialog>
 
-<!--TABELA-->
+<!-- LISTAGEM DE PECAS -->
 <p-panel header="Peças Cadastradas">
   <p-table
-    [value]="pecasFiltrados"
+    [value]="pecasFiltradas"
     [paginator]="true"
     [rows]="20"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -107,7 +107,7 @@
   </p-table>
 </p-panel>
 
-<!--DIALOG DE EDIÇÃO-->
+<!--DIALOG DE EDICAO-->
 <p-dialog
   header="Editar Serviço"
   [(visible)]="mostrarDialogEditarPeca"

@@ -38,7 +38,7 @@ export class PecaListComponent {
 
   adicionarPeca(){
     if(!this.novaPeca.codigo.trim()){
-      alert('O codigo é obrigatório!')
+      alert('O código é obrigatório!')
       return;
     }
     if(!this.novaPeca.descricao.trim()){
@@ -115,13 +115,13 @@ export class PecaListComponent {
   }
 
   editarPeca(peca: Peca) {
-    this.pecaEditando = { ...peca }; // Cópia para edição segura
-    this.mostrarDialogEditarPeca = true;
+      this.pecaEditando = { ...peca }; // Cópia para edição segura
+      this.mostrarDialogEditarPeca = true;
   }
 
   salvarEdicao() {
     if (!this.pecaEditando.id) {
-      alert("ID do serviço não encontrado para edição.");
+      alert("ID da peça não encontrado para edição.");
       return;
     }
 
@@ -141,7 +141,7 @@ export class PecaListComponent {
     });
   }
 
-  get pecasFiltrados(): Servico[] {
+  get pecasFiltradas(): Servico[] {
     return this.listaPecas.filter(peca =>
       !this.termoBusca ||
       [

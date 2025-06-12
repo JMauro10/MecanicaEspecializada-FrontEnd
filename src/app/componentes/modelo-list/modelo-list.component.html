@@ -1,4 +1,4 @@
-<!-- Linha de filtros e adicionar cliente -->
+<!-- Linha de filtros e adicionar modelo -->
 <div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
   <!-- Filtros do lado esquerdo -->
   <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
@@ -12,7 +12,7 @@
     />
   </div>
 
-  <!-- Adicionar Modelo do lado direito -->
+  <!-- Adicionar modelo do lado direito -->
   <div class="adicionar-modelo-container" style="display: flex; flex-direction: column; align-items: flex-end;">
     <span style="font-weight: bold; margin-bottom: 4px;">Adicionar modelo:</span>
     <p-button (click)="onModeloChange()" label="Novo" icon="pi pi-plus-circle"/>
@@ -100,7 +100,7 @@
   </p-table>
 </p-panel>
 
-<!-- DIALOG DE EDIÇÃO -->
+<!-- DIALOG DE EDICAO -->
 <p-dialog
   header="Editar Modelo"
   [(visible)]="mostrarDialogEditarModelo"

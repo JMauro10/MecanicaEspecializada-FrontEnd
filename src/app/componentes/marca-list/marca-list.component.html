@@ -1,4 +1,4 @@
-<!-- Linha de filtros e adicionar cliente -->
+<!-- Linha de filtros e adicionar marca -->
 <div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
   <!-- Filtros do lado esquerdo -->
   <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
@@ -12,7 +12,7 @@
     />
   </div>
 
-  <!-- Adicionar Marca do lado direito -->
+  <!-- Adicionar marca do lado direito -->
   <div class="adicionar-marca-container" style="display: flex; flex-direction: column; align-items: flex-end;">
     <span style="font-weight: bold; margin-bottom: 4px;">Adicionar marca:</span>
     <p-button (click)="onMarcaChange()" label="Novo" icon="pi pi-plus-circle"/>
@@ -81,7 +81,7 @@
   </p-table>
 </p-panel>
 
-<!-- DIALOG DE EDIÇÃO -->
+<!-- DIALOG DE EDICAO -->
 <p-dialog
   header="Editar Marca"
   [(visible)]="mostrarDialogEditarMarca"

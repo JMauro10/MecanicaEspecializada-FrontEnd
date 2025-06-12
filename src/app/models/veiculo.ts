@@ -1,6 +1,6 @@
 import {Marca} from './marca';
 import {Modelo} from './modelo';
-import {Cliente} from './Cliente';
+import {Cliente} from './cliente';
 
 export interface Veiculo {
   id?:number;

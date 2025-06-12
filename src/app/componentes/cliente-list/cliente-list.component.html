@@ -189,12 +189,6 @@
   <form [formGroup]="form" (ngSubmit)="salvarEdicaoFisica()">
     <div class="p-fluid">
       <div class="p-field">
-        <label for="idF">Id</label>
-        <br>
-        <input id="idF" type="text" formControlName="id" pInputText [readonly]="true" />
-      </div>
-      <br>
-      <div class="p-field">
         <label for="nomeEdicaoF">Nome</label>
         <br>
         <input id="nomeEdicaoF" type="text" formControlName="nome" pInputText />
@@ -238,12 +232,6 @@
 >
   <form [formGroup]="formJuridica" (ngSubmit)="salvarEdicaoJuridica()">
     <div class="p-fluid">
-      <div class="p-field">
-        <label for="id">Id</label>
-        <br>
-        <input id="id" type="text" formControlName="id" pInputText [readonly]="true" />
-      </div>
-      <br>
       <div class="p-field">
         <label for="razaoSocialEdicao">Razão Social</label>
         <br>
