@@ -1,5 +1,3 @@
-
-
 export interface OrdemServicoServico {
   id?: number; //
   servicoId: number;

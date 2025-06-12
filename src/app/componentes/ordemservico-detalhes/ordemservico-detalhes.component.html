@@ -1,1 +1,51 @@
-<p>ordemservico-detalhes works!</p>
+<p-button label="Voltar" icon="pi pi-arrow-left" [routerLink]="['/ordemServico-list']"></p-button>
+<br>
+<br>
+<p-panel header="Detalhes da Ordem de Serviço">
+  <div *ngIf="ordemServico">
+    <p><strong>Cliente:</strong> {{ ordemServico.nome }}</p>
+    <p><strong>Veículo:</strong> {{ ordemServico.descricaoVeiculo }}</p>
+    <p><strong>Data de Abertura:</strong> {{ ordemServico.dataAbertura}}</p>
+    <p><strong>Data de Fechamento:</strong> {{ ordemServico.dataFechamento}}</p>
+    <p><strong>Observações:</strong> {{ ordemServico.observacoes }}</p>
+    <p><strong>Status:</strong> {{ ordemServico.status }}</p>
+    <p><strong>Valor Total:</strong> {{ ordemServico.valorTotal}}</p>
+  </div>
+</p-panel>
+
+
+  <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Servico:</span>
+  <p-button (click)="onServicoChange()" label="Novo Servico" icon="pi pi-plus-circle"/>
+
+
+<p-dialog
+  header="Cadastro de Servico"
+  [(visible)]="mostrarDialogServico"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{width: '30vw'}">
+
+  <h2>Inserir Serviço</h2>
+  <p-floatlabel>
+    <p-dropdown
+      inputId="servico"
+      [options]="servicos"
+      [(ngModel)]="novoServico.servicoId"
+      optionLabel="descricao"
+      optionValue="id"
+      placeholder="Selecione o Serviço">
+    </p-dropdown>
+    <label>Servico</label>
+  </p-floatlabel>
+  <br>
+  <br>
+  <p-floatlabel>
+    <input pInputText type="number" id="quantidade" [(ngModel)]="novoServico.quantidade" />
+    <label for="quantidade">Quantidade</label>
+  </p-floatlabel>
+
+  <br>
+  <p-button label="Salvar" (click)="adicionarServico()" />
+</p-dialog>
+

@@ -16,6 +16,8 @@ import {DatePicker} from 'primeng/datepicker';
 import {IftaLabel} from 'primeng/iftalabel';
 import {Veiculo} from '../../models/veiculo';
 import {VeiculoService} from '../../service/veiculo.service';
+import {Cliente} from '../../models/Cliente';
+import {ClienteService} from '../../service/cliente.service';
 
 @Component({
   selector: 'app-ordem-servico-formulario',
@@ -41,13 +43,14 @@ export class OrdemServicoFormularioComponent {
     dataFechamento: '',
     observacoes: ''
   };
-  clientes = [{ id: 1, nome: 'João Silva', tipo: 'FISICO' }, { id: 2, nome: 'Empresa XPTO', tipo: 'JURIDICO' }];
+  clientes:Cliente[] = [];
   veiculos:Veiculo[] = [];
 
 
 
-  constructor(private ordemServicoService:OrdemservicoService, private router:Router, private veiculoService:VeiculoService) {
+  constructor(private ordemServicoService:OrdemservicoService, private router:Router, private veiculoService:VeiculoService, private clienteService:ClienteService) {
     this.veiculoService.listarVeiculo().subscribe(veiculo => this.veiculos = veiculo);
+    this.clienteService.listarClientes().subscribe(cliente => this.clientes = cliente);
   }
 
   incluirOrdemServico(){

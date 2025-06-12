@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {OrdemServico} from '../models/ordemservico';
+import {OrdemServicoResponseDTO} from '../models/ordem-servico-response-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class OrdemservicoService {
 
   listarOrdemSerivico():Observable<OrdemServico[]>{
     return this.http.get<OrdemServico[]>(this.url + '/ordemServico');
+  }
+
+  buscarPorId(id:number):Observable<OrdemServicoResponseDTO>{
+    return this.http.get<OrdemServicoResponseDTO>(`${this.url}/ordemServico/${id}`);
   }
 
   atualizarOrdemSerivico(ordemSerivico: OrdemServico): Observable<OrdemServico>{
