@@ -25,7 +25,7 @@
       <tr>
         <td>{{ ordemservico.id }}</td>
         <td>{{ ordemservico.nome}}</td>
-        <td>{{ ordemservico.veiculo}}</td>
+        <td>{{ ordemservico.descricaoVeiculo}}</td>
         <td>{{ ordemservico.observacoes }}</td>
         <td>{{ordemservico.status}}</td>
         <td>{{ ordemservico.valorTotal }}</td>
@@ -55,7 +55,7 @@
             icon="pi pi-clipboard"
             class="p-button-rounded p-button-info"
             style="margin-left: 0.5em"
-            [routerLink]="['/ordemServico-detalhes']">
+            [routerLink]="['/ordemServico-detalhes', ordemservico.id]">
           </button>
           <button
             *ngIf="ordemservico.status !== 'CANCELADA'"
