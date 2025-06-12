@@ -1,4 +1,4 @@
-import { Cliente } from './Cliente';
+import { Cliente } from './cliente';
 
 export interface PessoaJuridicaResposta extends Cliente {
   cnpj: string;

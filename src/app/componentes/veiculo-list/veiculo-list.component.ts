@@ -16,8 +16,6 @@ import {MarcaService} from '../../service/marca.service';
 import {PessoaFisicaResposta} from '../../models/pessoa-fisica';
 import {PessoaJuridicaResposta} from '../../models/pessoa-juridica';
 import {ClienteService} from '../../service/cliente.service';
-import {Peca} from '../../models/peca';
-import {Cliente} from '../../models/Cliente';
 
 
 @Component({
@@ -31,23 +29,27 @@ import {Cliente} from '../../models/Cliente';
     Panel,
     Dialog,
     InputText,
-    ButtonDirective
+    ButtonDirective,
+    InputText,
   ],
   templateUrl: './veiculo-list.component.html',
   standalone: true,
   styleUrl: './veiculo-list.component.css'
 })
 export class VeiculoListComponent {
-
   marca: Marca = {nome: ''}
   modelo: Modelo = {nome: '', marca: this.marca}
   novoVeiculo: Veiculo = {marca: this.marca, modelo: this.modelo,ano: 0, placa: '', quilometragem: 0, clienteId: 0};
+  veiculoEditando: Veiculo = {marca: this.marca, modelo: this.modelo,ano: 0, placa: '', quilometragem: 0, clienteId: 0};
   listaVeiculos: Veiculo[] = [];
   listaMarcas: Marca[] = [];
   listaModelos: Modelo[] = [];
   listaClientes: (PessoaFisicaResposta | PessoaJuridicaResposta)[] = [];
 
   mostrarDialogVeiculo = false;
+  mostrarDialogEditarVeiculo = false;
+
+  termoBusca: string = '';
 
   constructor(private clienteService: ClienteService, private fb: FormBuilder, private veiculoService: VeiculoService, private modeloService: ModeloService, private marcaService: MarcaService) {
     this.modeloService.listarModelo().subscribe(modelo => this.listaModelos = modelo);
@@ -66,7 +68,6 @@ export class VeiculoListComponent {
     });
   }
 
-
   onVeiculoChange(){
     this.mostrarDialogVeiculo = true;
   }
@@ -82,8 +83,15 @@ export class VeiculoListComponent {
         console.log('Veículo cadastrado com sucesso!');
         alert('Veículo cadastrado com sucesso!');
         this.atualizarListaVeiculo();
+        this.novoVeiculo = {
+          marca: { nome: '' },
+          modelo: { nome: '', marca: { nome: '' } },
+          ano: 0,
+          placa: '',
+          quilometragem: 0,
+          clienteId: 0
+        };
         this.mostrarDialogVeiculo = false;
-        this.ngOnInit();
       },
       error: (erro) => {
         if (erro.status === 400 || erro.status === 409) {
@@ -95,7 +103,6 @@ export class VeiculoListComponent {
     });
   }
 
-
   atualizarListaVeiculo(): void {
     this.veiculoService.listarVeiculo().subscribe(veiculo => {
       this.listaVeiculos = veiculo;
@@ -104,7 +111,7 @@ export class VeiculoListComponent {
 
   removerVeiculo(veiculo: Veiculo) {
     if (veiculo.id === undefined) {
-      alert("ID da veículo não encontrado. Não é possível remover.");
+      alert("ID do veículo não encontrado. Não é possível remover.");
       return;
     }
 
@@ -120,6 +127,54 @@ export class VeiculoListComponent {
         }
       });
     }
+  }
+
+  editarVeiculo(veiculo: Veiculo) {
+    this.veiculoEditando = { ...veiculo }; // Cópia para edição segura
+    this.mostrarDialogEditarVeiculo = true;
+  }
+
+  salvarEdicao() {
+    if (!this.veiculoEditando.id) {
+      alert("ID do veículo não encontrado para edição.");
+      return;
+    }
+
+    this.veiculoService.atualizarVeiculo(this.veiculoEditando).subscribe({
+      next: (veiculoAtualizado) => {
+        const index = this.listaVeiculos.findIndex(v => v.id === veiculoAtualizado.id);
+        if (index !== -1) {
+          this.listaVeiculos[index] = veiculoAtualizado;
+        }
+        this.mostrarDialogEditarVeiculo= false;
+        alert("Veículo atualizado com sucesso!");
+      },
+      error: (erro) => {
+        alert("Erro ao atualizar o veículo.");
+        console.error("Erro ao salvar edição:", erro);
+      }
+    });
+  }
+
+  // Buscar o nome do cliente através do ID para exibição na tabela
+  getNomeClientePorId(clienteId: number): string {
+    const cliente = this.listaClientes.find(c => c.id === clienteId);
+    return cliente ? cliente.nome : 'Desconhecido';
+  }
+
+  get veiculosFiltrados(): Veiculo[] {
+    return this.listaVeiculos.filter( veiculo =>
+      !this.termoBusca ||
+      [
+        veiculo.placa?.toLowerCase() ?? '',
+        veiculo.modelo.marca.nome?.toLowerCase() ?? '',
+        veiculo.modelo.nome?.toLowerCase() ?? '',
+        this.getNomeClientePorId(veiculo.clienteId)?.toLowerCase() ?? '',
+        veiculo.ano?.toString() ?? '',
+      ].some(valor =>
+        valor.includes(this.termoBusca.toLowerCase())
+      )
+    );
   }
 
 }

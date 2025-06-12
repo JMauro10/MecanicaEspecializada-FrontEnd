@@ -135,7 +135,7 @@ export class FuncionarioListComponent {
       !this.termoBusca ||
       [
         funcionario.nome?.toLowerCase() ?? '',
-        funcionario.cpf?.toLowerCase() ?? '',
+        funcionario.cpf?.toString() ?? '',
       ].some(valor =>
         valor.includes(this.termoBusca.toLowerCase())
       )
