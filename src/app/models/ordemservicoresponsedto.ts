@@ -1,5 +1,5 @@
 
-export interface OrdemServicoResponseDTO {
+export interface Ordemservicoresponsedto {
   id?: number;
   nome: string;
   descricaoVeiculo: string;
