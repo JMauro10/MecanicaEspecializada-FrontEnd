@@ -1,84 +1,117 @@
-<br>
+
+
+<!-- Adicionar Veiculo do lado direito -->
+<div class="adicionar-veiculo-container" style="display: flex; flex-direction: column; align-items: flex-end;">
+  <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Veículo:</span>
+  <p-button (click)="onVeiculoChange()"  iconPos="left" type="submit" label="Novo" icon="pi pi-plus-circle"/>
+</div>
+
 <br>
 
-<span style="font-weight: bold;">Adicionar funcionario:</span>
-<br>
-<p-button (click)="onVeiculoChange()" label="Novo Veículo"></p-button>
-
+<!--DIALOG DE CADASTRO VEICULO-->
 <p-dialog
   header="Cadastro de Veículo"
-  [(visible)]="mostrarDialogoVeiculo"
+  [(visible)]="mostrarDialogVeiculo"
   [modal]="true"
   [closable]="true"
   [responsive]="true"
   [style]="{width: '30vw'}">
 
-  <form (ngSubmit)="incluirVeiculo()" #veiculoForm="ngForm">
-    <div class="p-field">
-      <label>Marca</label>
-      <input type="text" pInputText [(ngModel)]="novoVeiculo.marca" name="marca" required />
-    </div>
+  <form (ngSubmit)="adicionarVeiculo()" #veiculoForm="ngForm">
 
     <div class="p-field">
-      <label>Modelo</label>
-      <input type="text" pInputText [(ngModel)]="novoVeiculo.modelo" name="modelo" required />
+      <br>
+      <label for="placa">Placa do Veículo</label>
+      <br>
+      <input id="placa" type="text" pInputText [(ngModel)]="novoVeiculo.placa" name="placa" required/>
     </div>
 
+    <br>
     <div class="p-field">
-      <label>Placa</label>
-      <input type="text" pInputText [(ngModel)]="novoVeiculo.placa" name="placa" required />
-    </div>
-
-    <div class="p-field">
-      <label>Ano</label>
-      <input type="number" pInputText [(ngModel)]="novoVeiculo.ano" name="ano" required />
-    </div>
-
-    <div class="p-field">
-      <label>Quilometragem</label>
-      <input type="number" pInputText [(ngModel)]="novoVeiculo.quilomentragem" name="quilomentragem" required />
-    </div>
-
-    <div class="p-field">
-      <label>Proprietário</label>
+      <br>
+      <label for="modelo">Modelo do Veículo</label>
+      <br>
       <p-dropdown
-        [options]="listaClientes"
+        id="modelo"
+        inputId="modelo"
+        [options]="listaModelos"
+        [(ngModel)]="novoVeiculo.modelo"
+        name="modelo"
         optionLabel="nome"
-        optionValue="id"
-        placeholder="Selecione um cliente"
-        [(ngModel)]="novoVeiculo.idCliente"
-        name="idCliente"
+        placeholder="Selecione o modelo"
         required>
       </p-dropdown>
     </div>
 
-    <p-button label="Salvar" icon="pi pi-check" type="submit"></p-button>
+    <br>
+
+    <div class="p-field">
+      <p-dropdown
+      id="cliente"
+      inputId="cliente"
+      [options]="listaClientes"
+      [(ngModel)]="novoVeiculo.clienteId"
+      name="cliente"
+      [optionLabel]="'nome'"
+      [dataKey]="'id'"
+      [optionValue]="'id'"
+      placeholder="Selecione o cliente"
+      required>
+      </p-dropdown>
+    </div>
+
+    <br>
+
+    <div class="p-field">
+      <br>
+      <label for="km">Quilometragem</label>
+      <br>
+      <input id="km" type="number" pInputText [(ngModel)]="novoVeiculo.quilometragem" name="km" required/>
+    </div>
+
+    <br>
+
+    <div class="p-field">
+      <br>
+      <label for="ano">Ano do Veículo</label>
+      <br>
+      <input id="ano" type="number" pInputText [(ngModel)]="novoVeiculo.ano" name="ano" required/>
+    </div>
+
+    <br>
+
+    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
   </form>
 </p-dialog>
 
+
+
+<!--Tabela de Veiculos-->
 <p-panel header="Veículos Cadastrados">
-  <p-table [value]="listaVeiculos" [paginator]="true" [rows]="5">
+  <p-table [value]="listaVeiculos" [paginator]="true" [rows]="20">
     <ng-template pTemplate="header">
       <tr>
+        <th>Id</th>
+        <th>Placa</th>
         <th>Marca</th>
         <th>Modelo</th>
-        <th>Placa</th>
-        <th>Ano</th>
-        <th>Km</th>
         <th>Proprietário</th>
+        <th>Km</th>
+        <th>Ano</th>
         <th>Ações</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-veiculo>
       <tr>
-        <td>{{ veiculo.marca }}</td>
-        <td>{{ veiculo.modelo }}</td>
+        <td>{{ veiculo.id }}</td>
         <td>{{ veiculo.placa }}</td>
+        <td>{{ veiculo.modelo?.marca?.nome }}</td>
+        <td>{{ veiculo.modelo?.nome }}</td>
+        <td>{{ veiculo.cliente?.nome }}</td>
+        <td>{{ veiculo.quilometragem }}</td>
         <td>{{ veiculo.ano }}</td>
-        <td>{{ veiculo.quilomentragem }}</td>
-        <td>{{ getNomeCliente(veiculo.idCliente) }}</td>
         <td>
-          <button pButton icon="pi pi-trash" class="p-button-danger" (click)="removerVeiculo(veiculo)"></button>
+          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="removerVeiculo(veiculo)"></button>
         </td>
       </tr>
     </ng-template>
