@@ -13,13 +13,24 @@
   </div>
 </p-panel>
 
+<br>
 
-  <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Servico:</span>
-  <p-button (click)="onServicoChange()" label="Novo Servico" icon="pi pi-plus-circle"/>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
 
+  <div class="adicionar-servico-container" style="display: flex; flex-direction: column; align-items: flex-start;">
+    <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Serviço:</span>
+    <p-button (click)="onServicoChange()" label="Novo Serviço" icon="pi pi-plus-circle"></p-button>
+  </div>
+
+  <div class="adicionar-peca-container" style="display: flex; flex-direction: column; align-items: flex-end;">
+    <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Peça:</span>
+    <p-button (click)="onPecaChange()" label="Nova Peça" icon="pi pi-plus-circle"></p-button>
+  </div>
+
+</div>
 
 <p-dialog
-  header="Cadastro de Servico"
+  header="Incluir Serviço"
   [(visible)]="mostrarDialogServico"
   [modal]="true"
   [closable]="true"
@@ -27,6 +38,7 @@
   [style]="{width: '30vw'}">
 
   <h2>Inserir Serviço</h2>
+
   <p-floatlabel>
     <p-dropdown
       inputId="servico"
@@ -36,16 +48,110 @@
       optionValue="id"
       placeholder="Selecione o Serviço">
     </p-dropdown>
-    <label>Servico</label>
+    <label >Serviço</label>
   </p-floatlabel>
-  <br>
-  <br>
+
+  <br><br>
+
   <p-floatlabel>
-    <input pInputText type="number" id="quantidade" [(ngModel)]="novoServico.quantidade" />
-    <label for="quantidade">Quantidade</label>
+    <input pInputText type="number" id="quantidadeServico" [(ngModel)]="novoServico.quantidade" />
+    <label for="quantidadeServico">Quantidade</label>
   </p-floatlabel>
 
   <br>
+
   <p-button label="Salvar" (click)="adicionarServico()" />
 </p-dialog>
+
+<p-dialog
+  header="Incluir Peça"
+  [(visible)]="mostrarDialogPeca"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{width: '30vw'}">
+
+  <h2>Inserir Peça</h2>
+
+  <p-floatlabel>
+    <p-dropdown
+      inputId="peca"
+      [options]="pecas"
+      [(ngModel)]="novaPeca.pecaId"
+      optionLabel="descricao"
+      optionValue="id"
+      placeholder="Selecione a Peça">
+    </p-dropdown>
+    <label>Peça</label>
+  </p-floatlabel>
+
+  <br><br>
+
+  <p-floatlabel>
+    <input pInputText type="number" id="quantidadePeca" [(ngModel)]="novaPeca.quantidade" />
+    <label for="quantidadePeca">Quantidade</label>
+  </p-floatlabel>
+
+  <br>
+
+  <p-button label="Salvar" (click)="adicionarPeca()" />
+</p-dialog>
+
+  <br><br>
+
+<div style="display: flex; justify-content: space-between; gap: 1px; margin-top: 10px;">
+
+  <p-panel header="Lista de Serviços" [style]="{ width: '100%' }">
+    <p-table
+      [value]="servicoDaOS"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [tableStyle]="{ 'min-width': '20rem' }">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Descrição</th>
+          <th>Quantidade</th>
+          <th>Valor</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-servico>
+        <tr>
+          <td>{{ servico.descricaoServico }}</td>
+          <td>{{ servico.quantidadeServico }}</td>
+          <td>{{ servico.valorServico }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+
+  <p-panel header="Lista de Peças" [style]="{ width: '100%' }">
+    <p-table
+      [value]="pacaDaOS"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [tableStyle]="{ 'min-width': '20rem' }">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Descrição</th>
+          <th>Quantidade</th>
+          <th>Valor</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-peca>
+        <tr>
+          <td>{{ peca.descricaoPeca }}</td>
+          <td>{{ peca.quantidadePeca }}</td>
+          <td>{{ peca.valorPeca }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+
+</div>
 

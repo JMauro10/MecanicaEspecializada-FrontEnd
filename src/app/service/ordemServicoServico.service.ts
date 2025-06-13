@@ -20,6 +20,10 @@ export class OrdemServicoServicoService {
     return this.http.get<OrdemServicoServico[]>(this.url + '/ordemServicoServico');
   }
 
+  listarOrdemServicoServicoPorOSID(id: number): Observable<OrdemServicoServico[]> {
+    return this.http.get<OrdemServicoServico[]>(`${this.url}/ordemServicoServico/servicos/${id}`);
+  }
+
   deletarOrdemServicoServicoById(id: number): Observable<void>{
     return this.http.delete<void>(this.url + '/ordemServicoServico/' + id);
   }

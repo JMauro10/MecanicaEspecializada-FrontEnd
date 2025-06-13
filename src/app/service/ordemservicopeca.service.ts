@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Ordemservicopeca} from '../models/ordemservicopeca';
+import {OrdemServicoServico} from '../models/ordemServicoServico';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class OrdemservicopecaService {
 
   listarOrdemSerivicoPeca():Observable<Ordemservicopeca[]>{
     return this.http.get<Ordemservicopeca[]>(this.url + '/ordemServicoPeca');
+  }
+
+  listarOrdemServicoPecaPorOSID(id: number): Observable<Ordemservicopeca[]> {
+    return this.http.get<Ordemservicopeca[]>(`${this.url}/ordemServicoPeca/pecas/${id}`);
   }
 
   deletarOrdemSerivicoPecaById(id: number): Observable<void>{
