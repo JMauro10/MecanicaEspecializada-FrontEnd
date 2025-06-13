@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Button, ButtonDirective} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -8,6 +8,7 @@ import {Panel} from 'primeng/panel';
 import {TableModule} from 'primeng/table';
 import {Funcionario} from '../../models/funcionario';
 import {FuncionarioService} from '../../service/funcionario.service';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @Component({
   selector: 'app-funcionario-list',
@@ -20,15 +21,16 @@ import {FuncionarioService} from '../../service/funcionario.service';
     ButtonDirective,
     Panel,
     TableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InputMaskModule
   ],
   templateUrl: './funcionario-list.component.html',
   standalone: true,
   styleUrl: './funcionario-list.component.css'
 })
 export class FuncionarioListComponent {
-  novoFuncionario: Funcionario = {nome:'',cpf:''};
-  funcionarioEditando: Funcionario = {nome:'',cpf:''};
+  novoFuncionario: Funcionario = {nome: '', cpf: ''};
+  funcionarioEditando: Funcionario = {nome: '', cpf: ''};
   listaFuncionarios: Funcionario[] = [];
 
   mostrarDialogFuncionario = false;
@@ -37,21 +39,21 @@ export class FuncionarioListComponent {
   termoBusca: string = '';
 
 
-  constructor(private funcionarioService:FuncionarioService) {
+  constructor(private funcionarioService: FuncionarioService) {
     this.funcionarioService.listarFuncionario().subscribe(funcionario => this.listaFuncionarios = funcionario);
   }
 
   onFuncionarioChange() {
-    this.novoFuncionario = {nome:'',cpf:''};
+    this.novoFuncionario = {nome: '', cpf: ''};
     this.mostrarDialogFuncionario = true;
   }
 
-  incluirFuncionario(){
-    if(!this.novoFuncionario.nome.trim()){
+  incluirFuncionario() {
+    if (!this.novoFuncionario.nome.trim()) {
       alert('O nome é obrigatório!')
       return;
     }
-    if(!this.novoFuncionario.cpf.trim()){
+    if (!this.novoFuncionario.cpf.trim()) {
       alert('O cpf é obrigatório!')
       return;
     }
@@ -77,6 +79,7 @@ export class FuncionarioListComponent {
       }
     });
   }
+
   atualizarListaFuncionario(): void {
     this.funcionarioService.listarFuncionario().subscribe(funcionario => {
       this.listaFuncionarios = funcionario;
@@ -84,7 +87,7 @@ export class FuncionarioListComponent {
   }
 
   editarFuncionario(funcionario: Funcionario) {
-    this.funcionarioEditando = { ...funcionario };
+    this.funcionarioEditando = {...funcionario};
     this.mostrarDialogEditarFuncionario = true;
   }
 
@@ -110,7 +113,7 @@ export class FuncionarioListComponent {
     });
   }
 
-  removerFuncionario(funcionario: Funcionario){
+  removerFuncionario(funcionario: Funcionario) {
     if (funcionario.id === undefined) {
       alert("ID do funcionário não encontrado. Não é possível remover.");
       return;

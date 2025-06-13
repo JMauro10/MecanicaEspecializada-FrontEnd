@@ -16,7 +16,7 @@ import {DatePicker} from 'primeng/datepicker';
 import {IftaLabel} from 'primeng/iftalabel';
 import {Veiculo} from '../../models/veiculo';
 import {VeiculoService} from '../../service/veiculo.service';
-import {Cliente} from '../../models/Cliente';
+import {Cliente} from '../../models/cliente';
 import {ClienteService} from '../../service/cliente.service';
 
 @Component({

@@ -16,6 +16,7 @@ import {MarcaService} from '../../service/marca.service';
 import {PessoaFisicaResposta} from '../../models/pessoa-fisica';
 import {PessoaJuridicaResposta} from '../../models/pessoa-juridica';
 import {ClienteService} from '../../service/cliente.service';
+import {InputNumber} from 'primeng/inputnumber';
 
 
 @Component({
@@ -31,6 +32,7 @@ import {ClienteService} from '../../service/cliente.service';
     InputText,
     ButtonDirective,
     InputText,
+    InputNumber,
   ],
   templateUrl: './veiculo-list.component.html',
   standalone: true,

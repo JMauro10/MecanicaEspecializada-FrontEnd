@@ -8,10 +8,11 @@ import {Panel} from 'primeng/panel';
 import {Servico} from '../../models/servico';
 import {ServicoService} from '../../service/servico.service';
 import {InputTextModule} from 'primeng/inputtext';
+import {InputNumber} from "primeng/inputnumber";
 
 @Component({
   selector: 'app-servico-list',
-  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, ButtonDirective, InputTextModule, ReactiveFormsModule],
+    imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, ButtonDirective, InputTextModule, ReactiveFormsModule, InputNumber],
   templateUrl: './servico-list.component.html',
   standalone: true,
   styleUrl: './servico-list.component.css'

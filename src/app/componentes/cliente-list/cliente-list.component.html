@@ -1,5 +1,6 @@
 <!-- Linha de filtros e adicionar cliente -->
-<div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
+<div class="linha-filtros"
+     style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
   <!-- Filtros do lado esquerdo -->
   <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
     <span style="font-weight: bold;">Filtros</span>
@@ -50,28 +51,49 @@
       <br>
       <label for="telefoneF">Telefone</label>
       <br>
-      <input id="telefoneF" type="text" pInputText [(ngModel)]="novoClienteFisica.telefone" name="telefoneF" required/>
+      <p-inputmask
+        id="telefoneF"
+        mask="(99) 99999-9999"
+        [(ngModel)]="novoClienteFisica.telefone"
+        name="telefoneF"
+        placeholder="(99) 99999-9999"
+        required>
+      </p-inputmask>
     </div>
 
     <div class="p-field">
       <br>
       <label for="cpf">CPF</label>
       <br>
-      <input id="cpf" type="text" pInputText [(ngModel)]="novoClienteFisica.cpf" name="cpf" required/>
+      <p-inputmask
+        mask="999.999.999-99"
+        [(ngModel)]="novoClienteFisica.cpf"
+        id="cpf"
+        name="cpf"
+        placeholder="000.000.000-00"
+        required>
+      </p-inputmask>
     </div>
 
     <div class="p-field">
       <br>
       <label for="emailF">Email</label>
       <br>
-      <input id="emailF" type="email" pInputText [(ngModel)]="novoClienteFisica.email" name="emailF"/>
+      <input
+        id="emailF"
+        type="email"
+        pInputText
+        [(ngModel)]="novoClienteFisica.email"
+        name="emailF"
+        placeholder="exemplo@email.com"
+        required
+      />
     </div>
 
     <br>
-    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
+    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit" [disabled]="pessoaFisicaForm.invalid"></p-button>
   </form>
 </p-dialog>
-
 
 
 <!--Cadastro de Pessoa Jurídica-->
@@ -84,19 +106,32 @@
   [style]="{width: '30vw'}">
 
   <form (ngSubmit)="adicionarClienteJuridica()" #pessoaJuridicaForm="ngForm">
-
     <div class="p-field">
       <br>
       <label for="razaoSocial">Razão Social</label>
       <br>
-      <input id="razaoSocial" type="text" pInputText [(ngModel)]="novoClienteJuridica.razaoSocial" name="razaoSocial" required/>
+      <input
+        id="razaoSocial"
+        type="text"
+        pInputText
+        [(ngModel)]="novoClienteJuridica.razaoSocial"
+        name="razaoSocial"
+        required/>
     </div>
 
     <div class="p-field">
       <br>
       <label for="cnpj">CNPJ</label>
       <br>
-      <input id="cnpj" type="text" pInputText [(ngModel)]="novoClienteJuridica.cnpj" name="cnpj" required/>
+      <p-inputmask
+        id="cnpj"
+        mask="99.999.999/9999-99"
+        [(ngModel)]="novoClienteJuridica.cnpj"
+        name="cnpj"
+        placeholder="00.000.000/0000-00"
+        [unmask]="true"
+        required>
+      </p-inputmask>
     </div>
 
     <div class="p-field">
@@ -110,18 +145,33 @@
       <br>
       <label for="telefoneJ">Telefone</label>
       <br>
-      <input id="telefoneJ" type="text" pInputText [(ngModel)]="novoClienteJuridica.telefone" name="telefoneJ" required/>
+      <p-inputmask
+        id="telefoneJ"
+        mask="(99) 99999-9999"
+        [(ngModel)]="novoClienteJuridica.telefone"
+        name="telefoneJ"
+        placeholder="(99) 99999-9999"
+        required>
+      </p-inputmask>
     </div>
 
     <div class="p-field">
       <br>
       <label for="emailJ">Email</label>
       <br>
-      <input id="emailJ" type="email" pInputText [(ngModel)]="novoClienteJuridica.email" name="emailJ"/>
+      <input
+        id="emailJ"
+        type="email"
+        pInputText
+        [(ngModel)]="novoClienteJuridica.email"
+        name="emailJ"
+        placeholder="contato@empresa.com"
+        required
+      />
     </div>
 
     <br>
-    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
+    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit" [disabled]="pessoaJuridicaForm.invalid"></p-button>
   </form>
 </p-dialog>
 
@@ -177,7 +227,6 @@
 </p-panel>
 
 
-
 <!--Pop Up de Edição Cliente Fisica-->
 <p-dialog
   header="Editar Cliente Pessoa Física"
@@ -191,31 +240,48 @@
       <div class="p-field">
         <label for="nomeEdicaoF">Nome</label>
         <br>
-        <input id="nomeEdicaoF" type="text" formControlName="nome" pInputText />
+        <input id="nomeEdicaoF" type="text" formControlName="nome" pInputText/>
       </div>
       <br>
+
       <div class="p-field">
         <label for="telefoneEdicaoF">Telefone</label>
         <br>
-        <input id="telefoneEdicaoF" type="text" formControlName="telefone" pInputText />
+        <p-inputmask
+          id="telefoneEdicaoF"
+          formControlName="telefone"
+          mask="(99) 99999-9999"
+          placeholder="(99) 99999-9999">
+        </p-inputmask>
       </div>
       <br>
+
       <div class="p-field">
         <label for="cpfEdicao">CPF</label>
         <br>
-        <input id="cpfEdicao" type="text" formControlName="cpf" pInputText />
+        <p-inputmask
+          id="cpfEdicao"
+          formControlName="cpf"
+          mask="999.999.999-99"
+          placeholder="000.000.000-00">
+        </p-inputmask>
       </div>
       <br>
+
       <div class="p-field">
         <label for="emailEdicaoF">Email</label>
         <br>
-        <input id="emailEdicaoF" type="text" formControlName="email" pInputText />
+        <input
+          id="emailEdicaoF"
+          type="email"
+          formControlName="email"
+          pInputText
+          placeholder="exemplo@email.com"/>
       </div>
     </div>
     <br>
     <p-footer>
-      <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right"
-              [disabled]="form.invalid"
+      <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right" [disabled]="form.invalid"
               class="p-button-success"></button>
     </p-footer>
   </form>
@@ -235,37 +301,58 @@
       <div class="p-field">
         <label for="razaoSocialEdicao">Razão Social</label>
         <br>
-        <input id="razaoSocialEdicao" type="text" formControlName="razaoSocial" pInputText />
+        <input id="razaoSocialEdicao" type="text" formControlName="razaoSocial" pInputText/>
       </div>
       <br>
+
       <div class="p-field">
         <label for="cnpjEdicao">CNPJ</label>
         <br>
-        <input id="cnpjEdicao" type="text" formControlName="cnpj" pInputText />
+        <p-inputmask
+          id="cnpjEdicao"
+          formControlName="cnpj"
+          mask="99.999.999/9999-99"
+          placeholder="00.000.000/0000-00"
+          [unmask]="true">
+        </p-inputmask>
       </div>
       <br>
+
       <div class="p-field">
         <label for="nomeRespEdicao">Nome do Responsável</label>
         <br>
-        <input id="nomeRespEdicao" type="text" formControlName="nomeResponsavel" pInputText />
+        <input id="nomeRespEdicao" type="text" formControlName="nomeResponsavel" pInputText/>
       </div>
       <br>
+
       <div class="p-field">
         <label for="telefoneEdicaoJ">Telefone</label>
         <br>
-        <input id="telefoneEdicaoJ" type="text" formControlName="telefone" pInputText />
+        <p-inputmask
+          id="telefoneEdicaoJ"
+          formControlName="telefone"
+          mask="(99) 99999-9999"
+          placeholder="(99) 99999-9999">
+        </p-inputmask>
       </div>
       <br>
+
       <div class="p-field">
         <label for="emailEdicao">Email</label>
         <br>
-        <input id="emailEdicao" type="text" formControlName="email" pInputText />
+        <input
+          id="emailEdicao"
+          type="email"
+          formControlName="email"
+          pInputText
+          placeholder="contato@empresa.com"
+        />
       </div>
     </div>
     <br>
     <p-footer>
       <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right"
-              class="p-button-success"></button>
+              class="p-button-success" [disabled]="formJuridica.invalid"></button>
     </p-footer>
   </form>
 </p-dialog>
