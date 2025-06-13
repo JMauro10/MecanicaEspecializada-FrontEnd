@@ -40,7 +40,15 @@
       <br>
       <label for="valorUnitario">Valor Unitário</label>
       <br>
-      <input id="valorUnitario" type="text" pInputText [(ngModel)]="novoServico.valorUnitario" name="valorUnitario" required/>
+      <p-inputNumber
+        id="valorUnitario"
+        [(ngModel)]="novoServico.valorUnitario"
+        name="valorUnitario"
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        required>
+      </p-inputNumber>
     </div>
 
     <br>
@@ -110,7 +118,15 @@
       <br>
       <label for="valorUnitario1">Valor Unitário</label>
       <br>
-      <input id="valorUnitario1" type="text" pInputText [(ngModel)]="servicoEditando.valorUnitario" name="valorUnitario1" required />
+      <p-inputNumber
+        id="valorUnitario1"
+        [(ngModel)]="servicoEditando.valorUnitario"
+        name="valorUnitario1"
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        required>
+      </p-inputNumber>
     </div>
 
     <br>

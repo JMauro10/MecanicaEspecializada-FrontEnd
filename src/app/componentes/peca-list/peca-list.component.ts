@@ -9,10 +9,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Panel} from 'primeng/panel';
 import {InputText, InputTextModule} from 'primeng/inputtext';
 import {Servico} from '../../models/servico';
+import {InputNumber} from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-peca-list',
-  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, InputText, ButtonDirective, InputTextModule, ReactiveFormsModule],
+  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, InputText, ButtonDirective, InputTextModule, ReactiveFormsModule, InputNumber],
   templateUrl: './peca-list.component.html',
   standalone: true,
   styleUrl: './peca-list.component.css'

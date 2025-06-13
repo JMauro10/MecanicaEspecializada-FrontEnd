@@ -46,14 +46,22 @@
       <br>
       <label for="quantidade">Quantidade</label>
       <br>
-      <input id="quantidade" type="text" pInputText [(ngModel)]="novaPeca.quantidade" name="quantidade" required/>
+      <input id="quantidade" type="number" pInputText [(ngModel)]="novaPeca.quantidade" name="quantidade" required/>
     </div>
 
     <div class="p-field">
       <br>
       <label for="valorUnitario">Valor Unitário</label>
       <br>
-      <input id="valorUnitario" type="text" pInputText [(ngModel)]="novaPeca.valorUnitario" name="valorUnitario" required/>
+      <p-inputNumber
+        id="valorUnitario"
+        [(ngModel)]="novaPeca.valorUnitario"
+        name="valorUnitario"
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        required>
+      </p-inputNumber>
     </div>
 
     <br>
@@ -134,14 +142,22 @@
       <br>
       <label for="quantidade1">Quantidade</label>
       <br>
-      <input id="quantidade1" type="text" pInputText [(ngModel)]="pecaEditando.quantidade" name="quantidade1" required />
+      <input id="quantidade1" type="number" pInputText [(ngModel)]="pecaEditando.quantidade" name="quantidade1" required />
     </div>
 
     <div class="p-field">
       <br>
       <label for="valorUnitario1">Valor Unitário</label>
       <br>
-      <input id="valorUnitario1" type="text" pInputText [(ngModel)]="pecaEditando.valorUnitario" name="valorUnitario1" required />
+      <p-inputNumber
+        id="valorUnitario1"
+        [(ngModel)]="pecaEditando.valorUnitario"
+        name="valorUnitario1"
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        required>
+      </p-inputNumber>
     </div>
 
     <br>

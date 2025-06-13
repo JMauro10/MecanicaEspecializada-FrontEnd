@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SharedModule} from 'primeng/api';
 import {PessoaFisica} from '../../models/pessoaFisica';
@@ -18,6 +18,7 @@ import {forkJoin} from 'rxjs';
 import {ClienteService} from '../../service/cliente.service';
 import {PessoaFisicaResposta} from '../../models/pessoa-fisica';
 import {PessoaJuridicaResposta} from '../../models/pessoa-juridica';
+import {InputMaskModule} from 'primeng/inputmask';
 
 
 @Component({
@@ -33,7 +34,8 @@ import {PessoaJuridicaResposta} from '../../models/pessoa-juridica';
     DropdownModule,
     FormsModule,
     Panel,
-    TableModule
+    TableModule,
+    InputMaskModule
   ],
   templateUrl: './cliente-list.component.html',
   standalone: true,
@@ -50,16 +52,22 @@ export class ClienteListComponent {
     {label: 'Pessoa Jurídica', value: 'juridica'},
   ];
   clientes = [
-    { label: 'Pessoa Física', value: 'fisica' },
-    { label: 'Pessoa Jurídica', value: 'juridica' }
+    {label: 'Pessoa Física', value: 'fisica'},
+    {label: 'Pessoa Jurídica', value: 'juridica'}
   ];
-
 
 
   //ATRIBUTOS
   selecionarCliente: string | null = null;
-  novoClienteFisica: PessoaFisica = {tipo: 'fisica', nome: '',email: '', telefone: '', cpf: '', dataNasc: new Date};
-  novoClienteJuridica: PessoaJuridica = {tipo: 'juridica', nome: '',email: '', telefone: '',razaoSocial: '', cnpj: ''};
+  novoClienteFisica: PessoaFisica = {tipo: 'fisica', nome: '', email: '', telefone: '', cpf: '', dataNasc: new Date};
+  novoClienteJuridica: PessoaJuridica = {
+    tipo: 'juridica',
+    nome: '',
+    email: '',
+    telefone: '',
+    razaoSocial: '',
+    cnpj: ''
+  };
   listarClientes: (PessoaFisicaResposta | PessoaJuridicaResposta)[] = [];
   listaClientesFisica: PessoaFisica[] = [];
   listaClientesJuridica: PessoaJuridica[] = [];
@@ -72,12 +80,9 @@ export class ClienteListComponent {
   mostrarDialogoPessoaJuridica = false;
 
 
-
-
   //CONSTRUTOR
   constructor(private clienteService: ClienteService, private pessoaFisicaService: PessoaFisicaService, private pessoaJuridicaService: PessoaJuridicaService, private fb: FormBuilder) {
   }
-
 
 
   //METODO DE PREENCHIMENTO DE LISTA E DE FORMULÁRIOS AUTOMATICO
@@ -87,7 +92,7 @@ export class ClienteListComponent {
     forkJoin({
       fisicas: this.pessoaFisicaService.listarClienteFisica(),
       juridicas: this.pessoaJuridicaService.listarClienteJuridica()
-    }).subscribe(({ fisicas, juridicas }) => {
+    }).subscribe(({fisicas, juridicas}) => {
       this.listaClientesFisica = fisicas;
       this.listaClientesJuridica = juridicas;
       this.unificarListas();
@@ -124,7 +129,6 @@ export class ClienteListComponent {
   }
 
 
-
   //METODO PARA UNIFICAÇÃO DAS LISTAS PESSOA FISICA E JURIDICA
   unificarListas() {
     const adaptadasFisica = this.listaClientesFisica.map(
@@ -140,7 +144,6 @@ export class ClienteListComponent {
       ...adaptadasJuridica
     ];
   }
-
 
 
   //METODO DE ABRIR POPUP PARA EDIÇÃO AMBOS TIPOS DE PESSOA
@@ -171,18 +174,17 @@ export class ClienteListComponent {
   }
 
 
-
   //METODO PARA ADICIONAR PESSOA FISICA
   adicionarClienteFisica() {
-    if(!this.novoClienteFisica.nome.trim()){
+    if (!this.novoClienteFisica.nome.trim()) {
       alert('O nome é obrigatório!');
       return;
     }
-    if(!this.novoClienteFisica.telefone.trim()){
+    if (!this.novoClienteFisica.telefone.trim()) {
       alert('O telefone é obrigatório!');
       return;
     }
-    if(!this.novoClienteFisica.cpf.trim()){
+    if (!this.novoClienteFisica.cpf.trim()) {
       alert('O CPF é obrigatório!');
       return;
     }
@@ -209,13 +211,12 @@ export class ClienteListComponent {
       error: (erro) => {
         if (erro.status === 400 || erro.status === 409) {
           alert(erro.error?.message || 'Já existe um cliente com esse nome!');
-        } else if(erro.status === 500) {
+        } else if (erro.status === 500) {
           alert('Já existe um cliente com esse CPF!');
         }
       }
     });
   }
-
 
 
   //METODO PARA ATUALIZAR A LISTA DE CLIENTE FISICA
@@ -226,7 +227,6 @@ export class ClienteListComponent {
       this.unificarListas();
     });
   }
-
 
 
   //METODO PARA ADICIONAR PESSOA JURIDICA
@@ -294,7 +294,6 @@ export class ClienteListComponent {
   }
 
 
-
   //METODO PARA ATUALIZAR A LISTA DE CLIENTE JURIDICA
   atualizarListaClientesJuridica(): void {
     this.pessoaJuridicaService.listarClienteJuridica().subscribe(pessoaJuridica => {
@@ -303,7 +302,6 @@ export class ClienteListComponent {
       this.unificarListas();
     });
   }
-
 
 
   //METODO PARA REMOVER AMBOS TIPOS DE CLIENTE
@@ -349,7 +347,6 @@ export class ClienteListComponent {
   }
 
 
-
   //METODO PARA MOSTRAR OS DADOS NA EDIÇÃO DE PESSOA FISICA
   editarClienteFisica(pessoaFisica: PessoaFisica) {
     console.log('Pessoa recebida para edição:', pessoaFisica);
@@ -369,7 +366,6 @@ export class ClienteListComponent {
       }
     });
   }
-
 
 
   //METODO PARA MOSTRAR OS DADOS NA EDIÇÃO DE PESSOA JURIDICA
@@ -393,7 +389,6 @@ export class ClienteListComponent {
   }
 
 
-
   //METODO PARA ABRIR O POPUP PARA EDIÇÃO DE PESSOA FISICA OU JURIDICA
   abrirEdicao(id: number, tipo: string) {
     if (tipo === 'fisica') {
@@ -407,9 +402,8 @@ export class ClienteListComponent {
       if (clienteOriginal) {
         this.editarClienteJuridica(clienteOriginal);
       }
-     }
+    }
   }
-
 
 
   //METODO PARA SALVAR A EDIÇÃO DE PESSOA FISICA
@@ -433,15 +427,14 @@ export class ClienteListComponent {
       error: (erro) => {
         if (erro.status === 409) {
           alert(erro.error?.message || 'Já existe um cliente com esse nome!');
-        } else if (erro.status === 500){
+        } else if (erro.status === 500) {
           alert('O tamanho não é suportado!');
-        }else {
+        } else {
           alert(erro)
         }
       }
     });
   }
-
 
 
   //METODO PARA SALVAR A EDIÇÃO DE PESSOA JURIDICA
@@ -476,15 +469,14 @@ export class ClienteListComponent {
         console.error('Erro ao atualizar:', erro);
         if (erro.status === 409) {
           alert(erro.error?.message || 'Já existe um cliente com esse nome!');
-        } else if (erro.status === 500){
+        } else if (erro.status === 500) {
           alert('O tamanho não é suportado!');
-        }else {
+        } else {
           alert(erro)
         }
       }
     });
   }
-
 
 
   //METODO DE PARA FILTRAGEM

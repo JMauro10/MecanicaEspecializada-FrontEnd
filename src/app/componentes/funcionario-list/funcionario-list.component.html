@@ -1,5 +1,6 @@
 <!-- Linha de filtros e adicionar funcionario -->
-<div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
+<div class="linha-filtros"
+     style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
   <!-- Filtros do lado esquerdo -->
   <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
     <span style="font-weight: bold;">Filtros</span>
@@ -15,7 +16,7 @@
   <!-- Adicionar funcionario do lado direito -->
   <div class="adicionar-funcionario-container" style="display: flex; flex-direction: column; align-items: flex-end;">
     <span style="font-weight: bold; margin-bottom: 4px;">Adicionar funcionário:</span>
-    <p-button (click)="onFuncionarioChange()" label="Novo" icon="pi pi-plus-circle" />
+    <p-button (click)="onFuncionarioChange()" label="Novo" icon="pi pi-plus-circle"/>
   </div>
 </div>
 
@@ -31,13 +32,20 @@
   <form (ngSubmit)="incluirFuncionario()" #funcionarioForm="ngForm">
     <div class="p-field">
       <label for="nome">Nome</label><br>
-      <input id="nome" type="text" pInputText [(ngModel)]="novoFuncionario.nome" name="nome" required />
+      <input id="nome" type="text" pInputText [(ngModel)]="novoFuncionario.nome" name="nome" required/>
     </div>
 
     <div class="p-field">
       <br>
       <label for="cpf">CPF</label><br>
-      <input id="cpf" type="text" pInputText [(ngModel)]="novoFuncionario.cpf" name="cpf" required />
+      <p-inputmask
+        mask="999.999.999-99"
+        [(ngModel)]="novoFuncionario.cpf"
+        id="cpf"
+        name="cpf"
+        placeholder="000.000.000-00"
+        required>
+      </p-inputmask>
     </div>
 
     <br>
@@ -100,13 +108,20 @@
   <form (ngSubmit)="salvarEdicao()" #editarForm="ngForm">
     <div class="p-field">
       <label for="nome1">Nome</label><br>
-      <input id="nome1" type="text" pInputText [(ngModel)]="funcionarioEditando.nome" name="nome1" required />
+      <input id="nome1" type="text" pInputText [(ngModel)]="funcionarioEditando.nome" name="nome1" required/>
     </div>
 
     <div class="p-field">
       <br>
       <label for="cpf1">CPF</label><br>
-      <input id="cpf1" type="text" pInputText [(ngModel)]="funcionarioEditando.cpf" name="cpf1" required />
+      <p-inputmask
+        mask="999.999.999-99"
+        [(ngModel)]="funcionarioEditando.cpf"
+        id="cpf1"
+        name="cpf1"
+        placeholder="000.000.000-00"
+        required>
+      </p-inputmask>
     </div>
 
     <br>
