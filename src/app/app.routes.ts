@@ -9,6 +9,7 @@ import {OrdemServicoFormularioComponent} from './componentes/ordem-servico-formu
 import {OrdemservicoDetalhesComponent} from './componentes/ordemservico-detalhes/ordemservico-detalhes.component';
 import {MarcaListComponent} from './componentes/marca-list/marca-list.component';
 import {ModeloListComponent} from './componentes/modelo-list/modelo-list.component';
+import {RelatorioOsDashboardComponent} from './componentes/relatorio-os-dashboard/relatorio-os-dashboard.component';
 
 export const routes: Routes = [
   { path: 'cliente-list', component: ClienteListComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'ordemServico-list', component: OrdemServicoListComponent },
   { path: 'ordemServico-formulario', component: OrdemServicoFormularioComponent },
   { path: 'ordemServico-detalhes/:id', component: OrdemservicoDetalhesComponent },
+  { path: 'relatorio-os-dashboard', component: RelatorioOsDashboardComponent },
   { path: '', redirectTo: '/ordemServico-list', pathMatch: 'full' }
 ];
 
