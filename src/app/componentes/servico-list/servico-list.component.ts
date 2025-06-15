@@ -1,29 +1,38 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Panel} from 'primeng/panel';
 import {Servico} from '../../models/servico';
 import {ServicoService} from '../../service/servico.service';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputNumber} from "primeng/inputnumber";
 
 @Component({
   selector: 'app-servico-list',
-  imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel],
+    imports: [TableModule, PaginatorModule, Button, Dialog, FormsModule, Panel, ButtonDirective, InputTextModule, ReactiveFormsModule, InputNumber],
   templateUrl: './servico-list.component.html',
+  standalone: true,
   styleUrl: './servico-list.component.css'
 })
 export class ServicoListComponent {
-  mostrarDialogServico = false;
-  novoServico: Servico = {descricao:"",valorUnitario:0 };
+  novoServico: Servico = {descricao: '', valorUnitario: 0};
+  servicoEditando: Servico = {descricao: '', valorUnitario: 0};
   listaServicos: Servico[] = [];
+
+  mostrarDialogServico = false;
+  mostrarDialogEditarServico = false;
+
+  termoBusca: string = '';
 
   constructor(private servicoService:ServicoService) {
     this.servicoService.listarServico().subscribe(servico => this.listaServicos = servico);
   }
 
   onServicoChange(){
+    this.novoServico = {descricao: '', valorUnitario: 0};
     this.mostrarDialogServico = true;
   }
 
@@ -76,7 +85,7 @@ export class ServicoListComponent {
       return;
     }
 
-    if (confirm(`Tem certeza que deseja remover o servico "${servico.descricao}"?`)) {
+    if (confirm(`Tem certeza que deseja remover o serviço "${servico.descricao}"?`)) {
       this.servicoService.deletarServicoById(servico.id).subscribe({
         next: () => {
           // Remove da lista localmente após sucesso:
@@ -89,4 +98,43 @@ export class ServicoListComponent {
       });
     }
   }
+
+  editarServico(servico: Servico) {
+    this.servicoEditando = { ...servico }; // Cópia para edição segura
+    this.mostrarDialogEditarServico = true;
+  }
+
+  salvarEdicao() {
+    if (!this.servicoEditando.id) {
+      alert("ID do serviço não encontrado para edição.");
+      return;
+    }
+
+    this.servicoService.atualizarServico(this.servicoEditando).subscribe({
+      next: (servicoAtualizado) => {
+        const index = this.listaServicos.findIndex(s => s.id === servicoAtualizado.id);
+        if (index !== -1) {
+          this.listaServicos[index] = servicoAtualizado;
+        }
+        this.mostrarDialogEditarServico = false;
+        alert("Serviço atualizado com sucesso!");
+      },
+      error: (erro) => {
+        alert("Erro ao atualizar o serviço.");
+        console.error("Erro ao salvar edição:", erro);
+      }
+    });
+  }
+
+  get servicosFiltrados(): Servico[] {
+    return this.listaServicos.filter(servico =>
+      !this.termoBusca ||
+      [
+        servico.descricao?.toLowerCase() ?? '',
+      ].some(valor =>
+        valor.includes(this.termoBusca.toLowerCase())
+      )
+    );
+  }
+
 }

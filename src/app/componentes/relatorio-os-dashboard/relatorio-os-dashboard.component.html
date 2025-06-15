@@ -1,0 +1,95 @@
+<!-- PopUp de login -->
+<p-dialog header="Login Admin"
+          [(visible)]="showLogin"
+          [modal]="true"
+          [closable]="false"
+          [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+          [style]="{width: '350px'}"
+          [draggable]="false">
+
+  <form (ngSubmit)="onLogin()" autocomplete="off">
+    <div class="p-fluid mb-3">
+      <label for="username">Usuário</label>
+      <br>
+      <input pInputText id="username" name="username" [(ngModel)]="username" required autofocus/>
+    </div>
+    <div class="p-fluid mb-3">
+      <label for="password">Senha</label>
+      <br>
+      <input pInputText id="password" name="password" [(ngModel)]="password" required type="password"/>
+    </div>
+    <button pButton type="submit" label="Entrar" class="w-full mb-2"></button>
+    <p-message *ngIf="loginError" severity="error" text="Usuário ou senha inválidos"></p-message>
+  </form>
+</p-dialog>
+
+
+
+<div *ngIf="!showLogin">
+  <button pButton label="Sair" icon="pi pi-sign-out"
+          class="p-button-sm p-button-danger mb-3"
+          (click)="logout()"></button>
+
+  <div *ngIf="carregando">
+    <p-progressSpinner></p-progressSpinner>
+    <span>Carregando dados...</span>
+  </div>
+
+  <div *ngIf="!carregando && dados">
+    <!-- Cards com informações principais -->
+    <div class="p-grid">
+      <div class="p-col-12 p-md-4">
+        <p-card>
+          <h4>OS Registradas</h4>
+          <span class="valor-grande">{{ dados.quantidadeTotalOs }}</span>
+        </p-card>
+      </div>
+      <br>
+      <div class="p-col-12 p-md-4">
+        <p-card>
+          <h4>Faturamento Total</h4>
+          <span class="valor-grande">{{ dados.valorTotalFaturamento | currency:'BRL':'symbol':'1.2-2':'pt' }}</span>
+        </p-card>
+      </div>
+      <br>
+      <div class="p-col-12 p-md-4">
+        <p-card>
+          <h4>Serviço Mais Solicitado</h4>
+          <span class="valor-grande">{{ dados.servicoMaisSolicitado }}</span>
+        </p-card>
+      </div>
+    </div>
+    <br>
+
+    <!-- Gráfico de pizza do ranking de serviços -->
+    <div class="p-grid">
+      <div class="p-col-12 p-md-6">
+        <p-card header="Ranking de Serviços (Quantidade)">
+          <p-chart type="pie" [data]="rankingServicosChartData"></p-chart>
+        </p-card>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <br>
+        <!-- Tabela detalhada do ranking -->
+        <p-card header="Ranking - Detalhado">
+          <p-table [value]="dados.rankingServicos">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Serviço</th>
+                <th>Execuções</th>
+                <th>Faturamento</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-servico>
+              <tr>
+                <td>{{ servico.descricaoServico }}</td>
+                <td>{{ servico.quantidadeExecucoes }}</td>
+                <td>{{ servico.valorTotalServico | currency:'BRL' }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>

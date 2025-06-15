@@ -1,0 +1,148 @@
+<!-- Linha de filtros e adicionar modelo -->
+<div class="linha-filtros" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1em;">
+  <!-- Filtros do lado esquerdo -->
+  <div class="filtros-container" style="display: flex; gap: 12px; align-items: center;">
+    <span style="font-weight: bold;">Filtros</span>
+    <input
+      pInputText
+      type="text"
+      [(ngModel)]="termoBusca"
+      placeholder="Buscar por Nome"
+      style="min-width: 480px;"
+    />
+  </div>
+
+  <!-- Adicionar modelo do lado direito -->
+  <div class="adicionar-modelo-container" style="display: flex; flex-direction: column; align-items: flex-end;">
+    <span style="font-weight: bold; margin-bottom: 4px;">Adicionar Modelo:</span>
+    <p-button (click)="onModeloChange()" label="Novo" icon="pi pi-plus-circle"/>
+  </div>
+</div>
+
+<!-- DIALOG DE CADASTRO -->
+<p-dialog
+  header="Cadastro de Modelo"
+  [(visible)]="mostrarDialogModelo"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{width: '30vw'}">
+
+  <form (ngSubmit)="incluirModelo()" #ModeloForm="ngForm">
+    <div class="p-field">
+      <label for="nome">Nome</label>
+      <br>
+      <input id="nome" type="text" pInputText [(ngModel)]="novoModelo.nome" name="nome" required />
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="marca">Marca</label>
+      <br>
+        <p-dropdown
+        id="marca"
+        inputId="marca"
+        [options]="listaMarcas"
+        [(ngModel)]="novoModelo.marca"
+        name="marca"
+        optionLabel="nome"
+        placeholder="Selecione a marca"
+        required>
+        </p-dropdown>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p-button label="Salvar" icon="pi pi-check" iconPos="right" type="submit"></p-button>
+  </form>
+</p-dialog>
+
+<!-- LISTAGEM DE MODELOS -->
+<p-panel header="Modelos Cadastrados">
+  <p-table
+    [value]="modelosFiltrados"
+    [paginator]="true"
+    [rows]="20"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:5%">Id</th>
+        <th style="width:20%">Nome</th>
+        <th style="width:20%">Marca</th>
+        <th style="width:20%">Ações</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-modelo>
+      <tr>
+        <td>{{ modelo.id }}</td>
+        <td>{{ modelo.nome }}</td>
+        <td>{{ modelo.marca?.nome }}</td>
+        <td>
+          <button pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded custom-edit-button"
+                  style="margin-left: 0.5em"
+                  (click)="editarModelo(modelo)">
+          </button>
+          <button pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  (click)="removerModelo(modelo)">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<!-- DIALOG DE EDICAO -->
+<p-dialog
+  header="Editar Modelo"
+  [(visible)]="mostrarDialogEditarModelo"
+  [modal]="true"
+  [closable]="true"
+  [style]="{width: '350px'}">
+
+  <form (ngSubmit)="salvarEdicao()" #editarForm="ngForm">
+    <div class="p-field">
+      <br>
+      <label for="nome1">Nome</label>
+      <br>
+      <input id="nome1" type="text" pInputText [(ngModel)]="modeloEditando.nome" name="nome1" required />
+    </div>
+
+    <div class="p-field">
+      <br>
+      <label for="marca1">Marca</label><br>
+      <p-dropdown
+        id="marca1"
+        inputId="marca1"
+        [options]="listaMarcas"
+        [(ngModel)]="modeloEditando.marca"
+        name="marca1"
+        optionLabel="nome"
+        placeholder="Selecione a marca"
+        required>
+      </p-dropdown>
+    </div>
+
+
+    <br>
+    <p-footer>
+      <button pButton type="submit" label="Salvar" icon="pi pi-check" iconPos="right"
+              class="p-button-success"></button>
+    </p-footer>
+  </form>
+</p-dialog>

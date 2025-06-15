@@ -1,0 +1,18 @@
+.linha-filtros {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1em;
+}
+
+.filtros-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.adicionar-cliente-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

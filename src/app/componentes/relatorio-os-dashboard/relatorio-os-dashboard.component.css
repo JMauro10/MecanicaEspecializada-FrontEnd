@@ -1,0 +1,15 @@
+
+p-chart {
+  display: block;
+  width: 100%;
+  max-width: 250px; /* ajuste conforme desejar */
+  margin: 0 auto;
+  height: 250px; /* ajuste conforme desejar */
+}
+
+
+p-chart canvas {
+  width: 100% !important;
+  height: 250px !important; /* ajuste conforme desejar */
+  max-width: 350px !important;
+}
