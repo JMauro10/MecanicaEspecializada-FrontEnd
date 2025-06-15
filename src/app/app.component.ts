@@ -17,35 +17,48 @@ export class AppComponent {
   items: MenuItem[] = [
     {
       label: 'Home',
+      icon: 'pi pi-home',
       routerLink: '/ordemServico-list'
     },
     {
       label: 'Clientes',
+      icon: 'pi pi-users',
       routerLink: '/cliente-list'
     },
     {
       label: 'Veículos',
+      icon: 'pi pi-car',
       routerLink: '/veiculo-list'
     },
     {
       label: 'Funcionários',
+      icon: 'pi pi-id-card',
       routerLink: '/funcionario-list'
     },
     {
       label: 'Peças',
+      icon: 'pi pi-wrench',
       routerLink: '/peca-list'
     },
     {
       label: 'Serviços',
+      icon: 'pi pi-briefcase',
       routerLink: '/servico-list'
     },
     {
       label: 'Marca',
+      icon: 'pi pi-tag',
       routerLink: '/marca-list'
     },
     {
       label: 'Modelo',
+      icon: 'pi pi-bookmark',
       routerLink: '/modelo-list'
+    },
+    {
+      label: 'Relatórios',
+      icon: 'pi pi-chart-bar',
+      routerLink: '/relatorio-os-dashboard'
     }
   ];
 }
