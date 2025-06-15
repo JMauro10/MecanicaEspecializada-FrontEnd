@@ -25,6 +25,6 @@ export class VeiculoService {
   }
 
   atualizarVeiculo(veiculo: Veiculo): Observable<Veiculo>{
-    return this.http.put<Veiculo>(this.url + '/clienteFisica', veiculo);
+    return this.http.put<Veiculo>(this.url + '/veiculo', veiculo);
   }
 }
