@@ -188,6 +188,10 @@ export class ClienteListComponent {
       alert('O CPF é obrigatório!');
       return;
     }
+    if (!this.novoClienteFisica.email.includes('@')) {
+      alert('O email deve conter o símbolo "@"!');
+      return;
+    }
 
     console.log('Dados do formulário antes do envio:', this.novoClienteFisica);
 
@@ -195,8 +199,8 @@ export class ClienteListComponent {
       next: (pessoaFisica) => {
         console.log('Cliente cadastrado com sucesso!');
         alert('Cliente cadastrado com sucesso!');
-        this.atualizarListaClientesFisica(); // Atualiza a lista após o cadastro bem-sucedido
-        // Aqui você reseta o objeto para limpar o formulário
+        this.atualizarListaClientesFisica();
+
         this.novoClienteFisica = {
           nome: '',
           tipo: 'fisica',
@@ -245,6 +249,10 @@ export class ClienteListComponent {
     }
     if (!this.novoClienteJuridica.cnpj.trim()) {
       alert('O CNPJ é obrigatório!');
+      return;
+    }
+    if (!this.novoClienteJuridica.email.includes('@')) {
+      alert('O email deve conter o símbolo "@"!');
       return;
     }
 
