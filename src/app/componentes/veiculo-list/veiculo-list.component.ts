@@ -74,12 +74,23 @@ export class VeiculoListComponent {
     this.mostrarDialogVeiculo = true;
   }
 
-  adicionarVeiculo(){
-    if(!this.novoVeiculo.placa.trim()){
-      alert('A placa é obrigatória!')
+  adicionarVeiculo() {
+    const placa = this.novoVeiculo.placa.trim().toUpperCase();
+    if (!placa) {
+      alert('A placa é obrigatória!');
       return;
     }
 
+    // Regex dos dois padrões
+    const padraoMercosul = /^[A-Z]{3}\d[A-Z]\d{2}$/i;
+    const padraoAntigo = /^[A-Z]{3}\d{4}$/i;
+
+    if (!padraoMercosul.test(placa) && !padraoAntigo.test(placa)) {
+      alert('A placa deve estar no formato: \n- Mercosul: ABC1D23\n- Antigo: ABC1234');
+      return;
+    }
+
+    // Continua fluxo normalmente...
     this.veiculoService.incluirVeiculo(this.novoVeiculo).subscribe({
       next: (veiculo) => {
         console.log('Veículo cadastrado com sucesso!');

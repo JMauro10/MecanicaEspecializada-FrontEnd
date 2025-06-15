@@ -33,7 +33,6 @@ import {TableModule} from 'primeng/table';
     FormsModule,
     Dialog,
     InputText,
-    ButtonDirective,
     TableModule,
     /* seus imports */],
   templateUrl: './ordemservico-detalhes.component.html',
