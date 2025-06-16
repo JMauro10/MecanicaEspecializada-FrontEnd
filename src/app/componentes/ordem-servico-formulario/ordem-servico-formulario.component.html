@@ -1,0 +1,68 @@
+<p-button label="Voltar" icon="pi pi-arrow-left" [routerLink]="['/ordemServico-list']"></p-button>
+
+<br>
+<br>
+<p-panel >
+  <h2>Inserir</h2>
+  <p-floatlabel>
+    <p-dropdown
+      inputId="cliente"
+      [options]="clientes"
+      [(ngModel)]="novaOrdemServico.cliente"
+      optionLabel="nome"
+      placeholder="Selecione um cliente">
+    </p-dropdown>
+    <label>Cliente</label>
+  </p-floatlabel>
+  <br>
+  <br>
+  <p-floatlabel>
+    <p-dropdown
+      inputId="veiculo"
+      [options]="veiculos"
+      [(ngModel)]="novaOrdemServico.veiculo"
+      placeholder="Selecione um veículo"
+      [filter]="true">
+
+      <ng-template let-veiculo pTemplate="item">
+        {{ veiculo.modelo.marca.nome }} - {{ veiculo.modelo.nome }} - {{ veiculo.placa }}
+      </ng-template>
+
+      <ng-template let-veiculo pTemplate="selectedItem">
+        {{ veiculo?.modelo.marca.nome }} - {{ veiculo?.modelo.nome }} - {{ veiculo?.placa }}
+      </ng-template>
+
+    </p-dropdown>
+    <label>Veículo</label>
+  </p-floatlabel>
+
+  <br>
+
+  <p-datepicker
+    [(ngModel)]="novaOrdemServico.dataAbertura"
+    [showIcon]="true"
+    inputId="dataAbertura"
+    [showOnFocus]="false"
+    dateFormat="dd/mm/yy">
+  </p-datepicker>
+
+  <br><br>
+
+  <p-datepicker
+    [(ngModel)]="novaOrdemServico.dataFechamento"
+    [showIcon]="true"
+    inputId="dataFechamento"
+    [showOnFocus]="false"
+    dateFormat="dd/mm/yy">
+  </p-datepicker>
+
+  <br><br>
+
+  <label>Descrição</label>
+  <p-iftalabel>
+    <textarea pTextarea id="observacao" [(ngModel)]="novaOrdemServico.observacoes" rows="5" cols="65" style="resize: none"></textarea>
+    <label for="observacao"></label>
+  </p-iftalabel>
+  <br>
+  <p-button label="Salvar" (click)="incluirOrdemServico()" />
+</p-panel>

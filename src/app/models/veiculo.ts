@@ -1,9 +1,13 @@
+import {Marca} from './marca';
+import {Modelo} from './modelo';
+import {Cliente} from './cliente';
+
 export interface Veiculo {
   id?:number;
-  marca:string;
-  modelo:string;
+  marca:Marca;
+  modelo:Modelo;
   ano:number;
   placa:string;
-  quilomentragem:number;
-  idCliente:number;
+  quilometragem:number;
+  clienteId: number;
 }

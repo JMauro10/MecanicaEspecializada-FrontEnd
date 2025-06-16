@@ -1,0 +1,74 @@
+
+<p-button label="Nova Ordem de Servico" icon="pi pi-plus-circle" [routerLink]="['/ordemServico-formulario']"></p-button>
+<br>
+<br>
+<p-panel header="Ordem de Serviços Cadastradas">
+  <p-table
+    [value]="listaOrdemServicos"
+    [paginator]="true"
+    [rows]="20"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template #header>
+      <tr>
+        <th style="width:5%">Id</th>
+        <th style="width:15%">Cliente</th>
+        <th style="width:25%">Veiculo</th>
+        <th style="width:15%">Descrição</th>
+        <th style="width:10%">Status</th>
+        <th style="width:10%">Valor Total</th>
+        <th style="width:15%">Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-ordemservico>
+      <tr>
+        <td>{{ ordemservico.id }}</td>
+        <td>{{ ordemservico.nome}}</td>
+        <td>{{ ordemservico.descricaoVeiculo}}</td>
+        <td>{{ ordemservico.observacoes }}</td>
+        <td>{{ordemservico.status}}</td>
+        <td>{{ ordemservico.valorTotal }}</td>
+        <td>
+          <button
+            *ngIf="ordemservico.status !== 'CANCELADA'"
+            pButton
+                  type="button"
+                  icon="pi pi-money-bill"
+                  class="p-button-rounded p-button-sucess"
+                  style="margin-left: 0.5em"
+                  (click)="pagarOrdemServico(ordemservico)">
+          </button>
+          <button
+            *ngIf="ordemservico.status === 'CANCELADA'"
+            pButton
+                  type="button"
+                  icon="pi pi-undo"
+                  class="p-button-rounded p-button-danger"
+                  style="margin-left: 0.5em"
+                  (click)="reabrirOrdemServico(ordemservico)">
+          </button>
+          <button
+            *ngIf="ordemservico.status !== 'CANCELADA'"
+            pButton
+            type="button"
+            icon="pi pi-clipboard"
+            class="p-button-rounded p-button-info"
+            style="margin-left: 0.5em"
+            [routerLink]="['/ordemServico-detalhes', ordemservico.id]">
+          </button>
+          <button
+            *ngIf="ordemservico.status !== 'CANCELADA'"
+            pButton
+            type="button"
+            icon="pi pi-times"
+            class="p-button-rounded p-button-danger"
+            style="margin-left: 0.5em"
+            (click)="cancelarOrdemServico(ordemservico)">
+          </button>
+
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
