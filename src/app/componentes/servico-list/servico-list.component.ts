@@ -44,10 +44,9 @@ export class ServicoListComponent {
     if (
       this.novoServico.valorUnitario === null ||
       this.novoServico.valorUnitario === undefined ||
-      isNaN(this.novoServico.valorUnitario) ||
       this.novoServico.valorUnitario <= 0
     ) {
-      alert('O valor unitário deve ser maior que zero!');
+      alert('O valor unitário deve ser um número maior que zero!');
       return;
     }
     console.log('Dados do formulário antes do envio:', this.novoServico);
