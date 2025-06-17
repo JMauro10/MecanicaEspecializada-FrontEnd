@@ -3,7 +3,7 @@ import {FormsModule} from '@angular/forms';
 import {Dialog} from 'primeng/dialog';
 import {Message} from 'primeng/message';
 import {InputText} from 'primeng/inputtext';
-import {ButtonDirective} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {CurrencyPipe, NgIf} from '@angular/common';
 import {OrdemServicoRelatorioDTO} from '../../models/ordem-servico-relatorio-dto';
 import {RelatorioOsServiceService} from '../../service/relatorio-os-service.service';
@@ -11,6 +11,8 @@ import {ProgressSpinner} from 'primeng/progressspinner';
 import {Card} from 'primeng/card';
 import {UIChart} from 'primeng/chart';
 import {TableModule} from 'primeng/table';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 @Component({
@@ -90,5 +92,40 @@ export class RelatorioOsDashboardComponent implements OnInit{
     this.password = '';
     this.dados = null;
     this.rankingServicosChartData = null;
+  }
+
+  exportarPDF() {
+    const relatorio = document.getElementById('relatorio-pdf');
+    if (!relatorio) return;
+
+    html2canvas(relatorio, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      // Ajusta a imagem ao tamanho da página
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pageWidth;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      let position = 0;
+
+      // Para páginas múltiplas, se necessário
+      if (pdfHeight < pageHeight) {
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+      } else {
+        let heightLeft = pdfHeight;
+        while (heightLeft > 0) {
+          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+          heightLeft -= pageHeight;
+          if (heightLeft > 0) {
+            pdf.addPage();
+            position = 0;
+          }
+        }
+      }
+      pdf.save('relatorio.pdf');
+    });
   }
 }
