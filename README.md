@@ -1,4 +1,4 @@
-# MecanicaOficializada-FrontEnd
+# MecanicaEspecializada-FrontEnd
 
 ## Descrição do Projeto
 
