@@ -2,14 +2,40 @@
 p-chart {
   display: block;
   width: 100%;
-  max-width: 250px; /* ajuste conforme desejar */
+  max-width: 250px;
   margin: 0 auto;
-  height: 250px; /* ajuste conforme desejar */
+  height: 250px;
 }
 
 
 p-chart canvas {
   width: 100% !important;
-  height: 250px !important; /* ajuste conforme desejar */
+  height: 250px !important;
   max-width: 350px !important;
+}
+
+.botoes-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Define o tamanho padrão para ambos os botões */
+.botao-padrao {
+  min-width: 170px;   /* Ajuste conforme desejar */
+  max-width: 200px;   /* Limite opcional */
+  width: 180px;       /* Padrão igual para ambos */
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+/* Ajuste para garantir responsividade em telas muito pequenas */
+@media (max-width: 500px) {
+  .botao-padrao {
+    min-width: 120px;
+    width: 100px;
+    font-size: 12px;
+  }
 }

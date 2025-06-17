@@ -26,15 +26,25 @@
 
 
 <div *ngIf="!showLogin">
+  <div class="botoes-container">
   <button pButton label="Sair" icon="pi pi-sign-out"
           class="p-button-sm p-button-danger mb-3"
           (click)="logout()"></button>
+
+  <!-- Exportar relatorio do lado direito -->
+  <div class="exportarPDF" style="display: flex; flex-direction: column; align-items: flex-end;">
+    <button pButton type="button" label="Exportar para PDF" icon="pi pi-file-pdf" (click)="exportarPDF()"></button>
+  </div>
+
+  </div>
 
   <div *ngIf="carregando">
     <p-progressSpinner></p-progressSpinner>
     <span>Carregando dados...</span>
   </div>
 
+
+  <div id="relatorio-pdf">
   <div *ngIf="!carregando && dados">
     <!-- Cards com informações principais -->
     <div class="p-grid">
@@ -91,5 +101,6 @@
         </p-card>
       </div>
     </div>
+   </div>
   </div>
-</div>
+ </div>
