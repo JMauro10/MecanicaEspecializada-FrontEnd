@@ -38,7 +38,7 @@ Siga os passos abaixo para clonar e executar o projeto em sua máquina:
 
 1.  **Clone o Repositório:**
     ```bash
-    git clone [https://github.com/Jmauro10/MecanicaEspecializada-FrontEnd.git](https://github.com/Jmauro10/MecanicaEspecializada-FrontEnd.git)
+    git clone https://github.com/Jmauro10/MecanicaEspecializada-FrontEnd.git
     ```
 
 2.  **Acesse o Diretório do Projeto:**
@@ -51,8 +51,15 @@ Siga os passos abaixo para clonar e executar o projeto em sua máquina:
     ```bash
     npm install --force
     ```
-    Execute a aplicação em sua IDE de preferencia, a aplicação estará disponível em `http://localhost:4200` (porta padrão do Angular).
+    
+4.  **Execute o projeto:**
+    ```bash
+    ng serve
+    ```
 
+5.  **Acesse no navegador:**
+  A aplicação estará disponível em:
+  http://localhost:4200
 ---
 
 ## 📂 Estrutura do Projeto
